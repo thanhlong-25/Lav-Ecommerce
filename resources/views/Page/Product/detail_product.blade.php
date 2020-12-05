@@ -47,7 +47,7 @@
         <span>
             <span>{{number_format($value_detail_product->product_price,0,',','.')}}đ</span>
             <label>Nhập số lượng:</label>
-            <input id="cart_product_qty_{{$value_detail_product->product_id}}" type="number" min="1" value="1" />
+            <input id="cart_product_qty_{{$value_detail_product->product_id}}" type="number" min="1" max="{{$value_detail_product->product_qty}}" value="1" />
             <input name="productId_hidden" type="hidden" value="{{$value_detail_product->product_id}}" />
 			<?php 
 				$customer_id = Session::get('customer_id');
@@ -63,6 +63,7 @@
 			?>
             
         </span>
+        <p><b>Còn lại:</b> {{$value_detail_product->product_qty}} sản phẩm</p>
         <p><b>Danh mục:</b> {{$value_detail_product->cate_name}}</p>
         <p><b>Thương hiệu:</b> {{$value_detail_product->brand_name}}</p>
         <p><b>Giới thiệu:</b> {{$value_detail_product->product_description}}</p>

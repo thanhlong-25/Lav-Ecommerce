@@ -6,6 +6,7 @@ use DateTime;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Banner;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
@@ -124,17 +125,14 @@ class BrandController extends Controller
     // #########################################################################################################v#######
     // ###########################################CLIENT#####################################################v##########
     public function thuong_hieu_san_pham($brand_id){
-        $cate_product = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
-        $brand_product = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
+        $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
         $get_brand_name = Brand::where('tbl_brand.brand_id', $brand_id)->limit(1)->get();
+        $banner = Banner::where('banner_status', '1')->get();
         $product_byId = Product::join('tbl_brand', 'tbl_brand.brand_id' ,'=', 'tbl_product.brand_id')
         ->where('tbl_product.brand_id', $brand_id)
         ->where('product_status', '1')->limit(4)->get();
 
-        return view('/Page.Brand.show_brand_byId')
-        ->with('all_cate', $cate_product)
-        ->with('all_brand', $brand_product)
-        ->with('product_byId', $product_byId)
-        ->with('get_brand_name', $get_brand_name);
+        return view('/Page.Brand.show_brand_byId')->with(compact('all_cate', 'all_brand', 'product_byId', 'get_brand_name' ,'banner'));
     }
 }

@@ -116,8 +116,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>ORDERS</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="{{URL::to('manage-order')}}">Manage Order</a></li>
-                        <li><a href="{{URL::to('list-order')}}">Test Order</a></li>
+                        <li><a href="{{URL::to('list-order')}}">Manage Order</a></li>
                     </ul>
                 </li>  
                  <li class="sub-menu">
@@ -166,6 +165,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--main content end-->
 </section>
 <script src="{{asset('public/backEnd/js/bootstrap.js')}}"></script>
+<link href="{{asset('public/frontEnd/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+<script src="{{asset('public/frontEnd/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('public/backEnd/js/jquery.dcjqaccordion.2.7.js')}}"></script>
 <script src="{{asset('public/backEnd/js/scripts.js')}}"></script>
 <script src="{{asset('public/backEnd/js/jquery.slimscroll.js')}}"></script>
@@ -342,7 +343,33 @@ $(document).on('blur', '.shippingcost_edit', function(){    // class shippingcos
                     });          
                 });
 
-
+// Cập nhật trạng thái đơn hàng
+            $('#change_order_status').on('change', function(){
+                var order_id = $('#order_id').val(); 
+                var status = $(this).val();
+                var _token = $('input[name="_token"]').val();
+                quantity = [];
+                // Lấy số lượng
+                $("input[name='product_sales_quantity']").each(function(){
+                    quantity.push($(this).val());
+                });
+                // lấy id
+                product_id = [];
+                $("input[id='product_id']").each(function(){
+                    product_id.push($(this).val());
+                });
+                alert("" + quantity)
+                $.ajax({
+				url: '{{url('/update-order-status')}}',
+                method: 'POST',
+				data:{  
+                    order_id:order_id,
+					status:status,
+                    quantity: quantity,
+                    product_id: product_id,
+					_token:_token},
+			        });       
+                });
             })
 </script>
 </html>

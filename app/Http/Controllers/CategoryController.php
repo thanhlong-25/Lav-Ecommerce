@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Banner;
 use DateTime;
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();
@@ -100,18 +101,15 @@ class CategoryController extends Controller
     // ###########################################CLIENT#####################################################v##########
     public function danh_muc_san_pham($cate_id){
         //$get_category_by_id = DB::table('tbl_category')->where('cate_id', $cate_id)->get();
-        $cate_product = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
-        $brand_product = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
+        $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        $banner = Banner::where('banner_status', '1')->get();
         $product_byId = Product::join('tbl_category', 'tbl_category.cate_id' ,'=', 'tbl_product.cate_id')
         ->where('tbl_product.cate_id', $cate_id)
         ->where('product_status', '1')->limit(4)->get();
         $get_cate_name = Category::where('tbl_category.cate_id', $cate_id)->limit(1)->get();
 
-        return view('/Page.Category.show_category_byId')
-        ->with('all_cate', $cate_product)
-        ->with('all_brand', $brand_product)
-        ->with('product_byId', $product_byId)
-        ->with('get_category_name', $get_cate_name);
+        return view('/Page.Category.show_category_byId')->with(compact('all_cate', 'all_brand', 'product_byId', 'get_cate_name' ,'banner'));
     }
 
 }

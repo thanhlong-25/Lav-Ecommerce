@@ -33,6 +33,7 @@
             <th>CATEGORY</th>
             <th>BRAND</th>
             <th>QUANTITY</th>
+            <th>SOLD</th>
             <th>PRICE</th>
             <th>IMAGE</th>
             <th>STATUS</th>
@@ -51,6 +52,7 @@
             <td>{{$product->cate_name}}</td>
             <td>{{$product->brand_name}}</td>
             <td>{{$product->product_qty}}</td>
+            <td>{{$product->product_sold}}</td>
             <td>{{number_format($product->product_price,0,',','.')}}</td>
             <td><img src="public/upload/products/{{$product->product_image}}" height="100px" height="100px"></td>
             <td><span class="text-ellipsis">

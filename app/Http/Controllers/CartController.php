@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Banner;
 use App\Models\City_Province;
 use App\Models\District;
 use App\Models\SubDistrict;
@@ -100,10 +101,11 @@ class CartController extends Controller
     public function show_cart_ajax(){
         $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $all_brand =  Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        $banner = Banner::where('banner_status', '1')->get();
         $city = City_Province::orderby('city_id', 'ASC')->get();
         $district = District::orderby('district_id', 'ASC')->get();
         $sub_district = SubDistrict::orderby('subdistrict_id', 'ASC')->get();
 
-        return view('/Page.Cart.list_cart_ajax')->with(compact('all_cate', 'all_brand', 'city', 'district', 'sub_district'));;
+        return view('/Page.Cart.list_cart_ajax')->with(compact('all_cate', 'all_brand', 'city', 'district', 'sub_district', 'banner'));;
     }
 }

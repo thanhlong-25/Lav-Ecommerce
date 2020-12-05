@@ -28,14 +28,15 @@ class HomeController extends Controller
 
     public function search_product(Request $request){
         $keywork = $request->keyword_search;
-        $cate_product = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
-        $brand_product = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
+        $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        $banner = Banner::where('banner_status', '1')->get();
 
         $search_product = Product::where('product_status', '1')
         ->where('product_name', 'like', '%'.$keywork.'%')
         ->orderBy('product_id', 'desc')
         ->limit(8)->get();
-        return view('/Page.Product.search_product')->with('all_cate', $cate_product)->with('all_brand', $brand_product)->with('search_product', $search_product);
+        return view('/Page.Product.search_product')->with(compact('all_cate', 'all_brand', 'search_product', 'banner'));
     }
 
     // Sẽ có ngày cần

@@ -89,9 +89,9 @@ Route::post('export-excel', [ProductController::class, 'export_excel']);
 Route::post('import-excel', [ProductController::class, 'import_excel']);
 
 //Order
-Route::get('/manage-order', [CheckoutController::class, 'manage_order' ]);
 Route::get('/view-order/{order_id}', [CheckoutController::class, 'view_order' ]);
 Route::get('/list-order', [CheckoutController::class, 'list_order' ]);
+Route::post('/update-order-status', [CheckoutController::class, 'update_order_status' ]);
 
 //Email
 Route::get('send-mail', [HomeController::class, 'send_mail']);

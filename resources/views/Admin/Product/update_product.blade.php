@@ -27,8 +27,8 @@
                                     <select name="cate_id_product" class="form-control m-bot15" id="selector">
                                        @foreach($all_cate as $key => $all_cate)
                                         @if($all_cate->cate_id == $product_value->cate_id)
-                                            <option selected value="{{$all_cate->cate_id}}" >{{$all_cate->cate_name}}</option>
-                                         @else
+                                            <option selected value="{{$all_cate->cate_id}}">{{$all_cate->cate_name}}</option>
+                                        @else
                                             <option value="{{$all_cate->cate_id}}">{{$all_cate->cate_name}}</option>
                                         @endif
                                         @endforeach
@@ -56,7 +56,7 @@
                                     <textarea style="resize: none" rows="5" class="form-control" name="content_product" id="contentproduct">{{$product_value->product_content}}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="qtyproduct">PRICE</label>
+                                    <label for="qtyproduct">QUANTITY</label>
                                     <input type="number" class="form-control" value="{{$product_value->product_qty}}" name="qty_product" id="qtyproduct">
                                 </div>
                                 <div class="form-group">

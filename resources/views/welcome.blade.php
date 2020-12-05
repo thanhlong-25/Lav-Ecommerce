@@ -185,6 +185,7 @@ Session::get("customer_id");
 							<li data-target="#slider-carousel" data-slide-to="2"></li>
 						</ol>
 						
+						@if($banner)
 						<div class="carousel-inner">
 						@php
 							$i = 0;
@@ -195,12 +196,13 @@ Session::get("customer_id");
 							@endphp
 							<div class="item {{$i == 1 ? 'active' : ''}}">
 								<div class="col-sm-12">
-									<img src="public/upload/banners/{{$banner_value->banner_image}}" class="img img-responsive" width="100%" alt="test">
+									<img src="{{URL::to('public/upload/banners/'.$banner_value->banner_image)}}" class="img img-responsive" width="100%" alt="test">
 								</div>
 							</div>
 						@endforeach	
 						</div>
-						
+						@endif
+
 						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
 							<i class="fa fa-angle-left"></i>
 						</a>
@@ -431,6 +433,7 @@ Session::get("customer_id");
     <script src="{{asset('public/frontEnd/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('public/frontEnd/js/main.js')}}"></script>
 	<script src="{{asset('public/frontEnd/js/sweetalert.js')}}"></script>
+	
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$("#add-to-cart").click(function(){

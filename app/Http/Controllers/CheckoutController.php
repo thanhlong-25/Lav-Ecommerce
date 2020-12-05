@@ -14,6 +14,7 @@ use App\Models\Brand;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\Banner;
 use App\Models\Order_details;
 use App\Models\UserCustomer;
 use App\Models\Shipping;
@@ -64,14 +65,42 @@ class CheckoutController extends Controller
         return view('admin.Order.list_order')->with(compact('all_order'));
     }
 
+    public function update_order_status(Request $request){
+        $this->authenLogin();
+        $data = $request->all();
+        $cart_quantity = $data['quantity'];
+        $product_id = $data['product_id'];
+        $order_id = $data['order_id'];
+        $status = $data['status'];
+        
+        if($status == "Đã giao"){
+            foreach($product_id as $key => $id_value){
+                $product = Product::find($id_value);
+                $product_quantity = $product->product_qty;
+                $product_sold = $product->product_sold;
+                foreach($cart_quantity as $key2 => $quantity){
+                        if($key == $key2){
+                            $product_remain = $product_quantity - $quantity;
+                            $product->product_qty =  $product_remain;
+                            $product->product_sold = $product_sold + $quantity;
+                            $product->save();
+                        }
+                    }
+            }
+        }
+
+        Order::where('order_id', $order_id)->update(['order_status' => $status]);
+        return redirect()->back();
+    }
+
     public function print_order($checkout_code){
+            $this->authenLogin();
             $pdf = \App::make('dompdf.wrapper');
             $pdf -> loadHTML($this->print_order_convert($checkout_code));
             return $pdf->stream();
     }
 
     public function print_order_convert($checkout_code){
-        
         $this->authenLogin();
         $order = Order::join('tbl_usercustomer', 'tbl_usercustomer.customer_id','=', 'tbl_order.customer_id')
         ->join('tbl_shipping', 'tbl_shipping.shipping_id','=', 'tbl_order.shipping_id')
@@ -198,9 +227,7 @@ class CheckoutController extends Controller
         <p>Ngày xuất đơn: '.now().'</p>
         
       ';
-
         return $output;
-        
     }
 
 
@@ -208,10 +235,11 @@ class CheckoutController extends Controller
     // ###########################################CLIENT#####################################################v##########
 
     public function login_checkout(){
-        $cate_product = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
-        $brand_product = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
+        $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        $banner = Banner::where('banner_status', '1')->get();
 
-        return view('/Page.Checkout.login_checkout')->with('all_cate', $cate_product)->with('all_brand', $brand_product);
+        return view('/Page.Checkout.login_checkout')->with(compact('all_cate','all_brand', 'banner'));
     }
 
     public function logout_checkout(){
@@ -285,7 +313,7 @@ class CheckoutController extends Controller
         $data_orther['coupon_code'] =  $request->total_promote;                         // $coupon[$sessioncoupon]['coupon_code'];
         $data_orther['created_at'] = now();
         $data_orther['order_total'] = $request->total;
-        $data_orther['order_status'] = "Chờ xử lý";
+        $data_orther['order_status'] = "Chờ xử lí";
         $get_order_id = DB::table('tbl_order')->insertGetId($data_orther); // insertGetID nghĩa là khi insert xong sẽ getID luôn, để làm một số thứ
 
        //insert order
@@ -301,6 +329,7 @@ class CheckoutController extends Controller
        }
 
        if($data_orther['payment_method'] == "pay_by_ATM"){
+
             return redirect()->back()->with('message', "Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên lạc với bạn sớm nhất có thể!");  
        }else if($data_orther['payment_method'] == "pay_by_cash"){
             if($coupon){

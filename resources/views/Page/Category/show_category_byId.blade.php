@@ -1,7 +1,7 @@
 @extends('welcome')
 @section('content')
 <div class="features_items"><!--features_items-->
-                        @foreach($get_category_name as $key => $value_category_name)
+                        @foreach($get_cate_name as $key => $value_category_name)
 							<h2 class="title text-center">Danh mục {{$value_category_name->cate_name}}</h2>
                         @endforeach
 						@foreach($product_byId as $key => $value_product_byId)

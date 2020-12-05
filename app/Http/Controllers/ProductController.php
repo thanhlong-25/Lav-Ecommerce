@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Banner;
 use DateTime;
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();
@@ -165,6 +166,7 @@ class ProductController extends Controller
     public function chi_tiet_san_pham($product_id){
         $cate_product = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $brand_product = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        $banner = Banner::where('banner_status', '1')->get();
         $detail_product = Product::join('tbl_category', 'tbl_category.cate_id','=', 'tbl_product.cate_id')
         ->join('tbl_brand', 'tbl_brand.brand_id','=', 'tbl_product.brand_id')
         ->where('tbl_product.product_status', '1')
@@ -187,6 +189,7 @@ class ProductController extends Controller
         ->with('all_cate', $cate_product)
         ->with('all_brand', $brand_product)
         ->with('detail_product', $detail_product)
-        ->with('product_recommended', $relative_product);
+        ->with('product_recommended', $relative_product)
+        ->with('banner', $banner);
     }
 }

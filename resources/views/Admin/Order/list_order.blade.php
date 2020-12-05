@@ -51,7 +51,7 @@
             <td>{{$order->payment_method}}</td>
             <td>{{number_format($order->coupon_code,0,',','.')}}đ</td>
             <td>{{number_format($order->order_total,0,',','.')}}đ</td>
-            <td contenteditable>{{$order->order_status}}</td>
+            <td>{{$order->order_status}}</td>
             <td>{{$order->created_at}}</td>
             <td><a href="{{URL::to('view-order/'.$order->order_id)}}" class="active"><i class="fa fa-eye text-success text-active"></i></a></td>
           </tr>
