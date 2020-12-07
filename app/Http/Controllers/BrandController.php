@@ -33,11 +33,6 @@ class BrandController extends Controller
        return Redirect::to('/admin')->send();
     }
     }
-    
-    public function add_brand(){
-        $this->authenLogin();
-        return view('/admin.Brand.add_brand');
-    }
 
     public function list_brand(){
         $this->authenLogin();
@@ -45,11 +40,10 @@ class BrandController extends Controller
         //$all_brand = Brand::orderBy('brand_id','Desc')->take(4)->get();  lấy 4 giá trị thôi
         //$all_brand = Brand::orderBy('brand_id','Desc')->paginate(4)->get();  phân trang
         $all_brand = Brand::orderBy('brand_id','Desc')->paginate(10);
-        $manage_brand = view('admin.Brand.list_brand')->with('all_brand', $all_brand);
-        return view('admin.admin_dashboard')->with('admin.Brand.list_brand', $manage_brand);
+        return view('admin..Brand.list_brand')->with(compact('all_brand'));
     }
 
-    public function save_brand(Request $request){
+    public function add_brand(Request $request){
 
         //Cách 1
         // $this->authenLogin();

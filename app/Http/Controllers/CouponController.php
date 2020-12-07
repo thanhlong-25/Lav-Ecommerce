@@ -23,13 +23,7 @@ class CouponController extends Controller
            return Redirect::to('/admin')->send();
         }
     }
-
-    public function add_coupon(){
-        $this->authenLogin();
-        return view('/admin.Coupon.add_coupon');
-    }
-
-    public function save_coupon(Request $request){
+    public function add_coupon(Request $request){
         $this->authenLogin();
         $data = $request->all();
 

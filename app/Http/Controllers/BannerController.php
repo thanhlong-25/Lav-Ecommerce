@@ -25,12 +25,8 @@ class BannerController extends Controller
         }
     }
 
-    public function add_banner(){
-        $this->authenLogin();
-        return view('/admin.Banner.add_banner');
-    }
 
-    public function save_banner(Request $request){
+    public function add_banner(Request $request){
         $this->authenLogin();
         $data = $request->all();
 
@@ -59,7 +55,7 @@ class BannerController extends Controller
             $banner->banner_image  ="";
             $banner->save();
             Session::put('message', "Something went wrong!!!");
-            return Redirect::to('/add-banner');
+            return Redirect::to('/list-banner');
         }
     }
 

@@ -1,11 +1,55 @@
  @extends('admin_layout')
  @section('admin_content')
  <div class="table-agile-info">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      ALL COUPON
+ <button style="margin: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-plus" aria-hidden="true"></i>   Addition</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="{{URL::to('add-coupon')}}" method="POST" enctype="multipart/form-data">
+                  {{csrf_field()}}
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalLongTitle">Addition Coupon</h2>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="nameCoupon">NAME</label>
+                      <input type="text" class="form-control" minlength="2" maxlength="20" name="name_coupon" id="nameCoupon"  required>
+                  </div>
+                  <div class="form-group">
+                    <label for="codeCoupon">CODE</label>
+                    <input type="text" class="form-control" minlength="2" maxlength="20" name="code_coupon" id="codeCoupon" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="qtyCoupon">QUANTITY</label>
+                    <input type="number" class="form-control" name="qty_coupon" id="qtyCoupon"  required>
+                  </div>
+                  <div class="form-group">
+                    <label for="maxpromoteCoupon">MAXIMUM PROMOTE OF CART VALUE</label>
+                    <input type="number" class="form-control" name="max_promote_coupon" id="maxpromoteCoupon"  required>
+                  </div>
+                  <div class="form-group">
+                    <label for="selector">MODE</label>
+                      <select name="mode_coupon" class="form-control m-bot15" id="selector">
+                        <option>-----Select------</option>
+                        <option value="0" >Percent</option>
+                        <option value="1" >Cash</option>
+                       </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="valueCoupon">CASH OR % VALUE</label>
+                    <input type="number" class="form-control" name="value_coupon" id="valueCoupon" placeholder="Enter value" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+            </form>
+        </div>
     </div>
-    
+</div>
+<!-- Modal -->
     <?php
         $stt = 1;
         $message = Session::get('message_status');
@@ -49,7 +93,7 @@
             <td>{{$coupon->coupon_name}}</td>
             <td>{{$coupon->coupon_code}}</td>
             <td>{{$coupon->coupon_qty}}</td>
-            <td>{{$coupon->max_promote_value}}</td>
+            <td>{{number_format($coupon->max_promote_value,0,',','.')}} đ</td>
             <td>
                 <?php
                   if($coupon->coupon_mode == 0){

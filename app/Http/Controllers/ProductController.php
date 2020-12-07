@@ -29,25 +29,18 @@ class ProductController extends Controller
         }
         }
 
-    public function add_product(){
-        $this->authenLogin();
-        $cate_product = Category::orderBy('cate_id', 'desc')->get();
-        $brand_product = Brand::orderBy('brand_id', 'desc')->get();
-        $manage_product = view('admin.Product.add_product')->with('all_cate', $cate_product)->with('all_brand', $brand_product);
-
-        return view('/admin.admin_dashboard')->with('admin.Product.add_product', $manage_product);
-    }
-
     public function list_product(){
         $this->authenLogin();
+        $all_cate = Category::orderBy('cate_id', 'desc')->get();
+        $all_brand = Brand::orderBy('brand_id', 'desc')->get();
         $all_product = Product::join('tbl_category', 'tbl_category.cate_id','=', 'tbl_product.cate_id')
             ->join('tbl_brand', 'tbl_brand.brand_id','=', 'tbl_product.brand_id')
             ->orderByDesc('tbl_product.product_id')->paginate(10);
-        $manage_product = view('admin.Product.list_product')->with('all_product', $all_product);
-        return view('admin.admin_dashboard')->with('admin.Product.list_product', $manage_product);
+     
+        return view('admin..Product.list_product')->with(compact('all_product', 'all_brand', 'all_cate'));
     }
 
-    public function save_product(Request $request){
+    public function add_product(Request $request){
         $this->authenLogin();
         $data = $request->all();
 

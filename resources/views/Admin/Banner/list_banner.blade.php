@@ -1,11 +1,42 @@
  @extends('admin_layout')
  @section('admin_content')
  <div class="table-agile-info">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      ALL BRANDS
+ <button style="margin: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-plus" aria-hidden="true"></i>   Addition</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="{{URL::to('add-banner')}}" method="POST" enctype="multipart/form-data">
+                  {{csrf_field()}}
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalLongTitle">Addition Banner</h2>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="nameBanner">NAME</label>
+                    <input type="text" class="form-control" minlength="2" maxlength="50" name="name_banner" id="nameBanner" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="imageBanner">IMAGE</label>
+                    <input type="file" class="form-control" name="image_banner" id="imageBanner" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="selector">MODE</label>
+                    <select name="status_banner" class="form-control m-bot15" id="selector">
+                      <option value="1" >Show</option>
+                      <option value="0" >Hide</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+            </form>
+        </div>
     </div>
-    
+</div>
+<!-- Modal -->
     <?php
         $stt = 1;
         $message = Session::get('message_status');

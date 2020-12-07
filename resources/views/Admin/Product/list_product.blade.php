@@ -1,10 +1,74 @@
  @extends('admin_layout')
  @section('admin_content')
  <div class="table-agile-info">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      ALL PRODUCTS
+ <button style="margin: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-plus" aria-hidden="true"></i>   Addition</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="{{URL::to('add-product')}}" method="POST" enctype="multipart/form-data">
+                  {{csrf_field()}}
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalLongTitle">Addition Product</h2>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                                    <label for="nameproduct">NAME</label>
+                                    <input type="text" class="form-control" name="name_product" id="nameproduct" placeholder="Enter name product" required>
+                                </div>
+                                <div class="form-group">
+                                <label for="selector">CATEGORY</label>
+                                    <select name="cate_id_product" class="form-control m-bot15" id="selector">
+                                       @foreach($all_cate as $key => $all_cate)
+                                        <option value="{{$all_cate->cate_id}}" >{{$all_cate->cate_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                <label for="selector">BRAND</label>
+                                    <select name="brand_id_product" class="form-control m-bot15" id="selector" >
+                                        <@foreach($all_brand as $key => $all_brand)
+                                        <option value="{{$all_brand->brand_id}}" >{{$all_brand->brand_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="descriptionproduct">DESCRIPTION</label>
+                                    <textarea style="resize: none" rows="5" class="form-control" name="description_product" id="descriptionproduct" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contentproduct">CONTENT</label>
+                                    <input type="text" class="form-control" name="content_product" id="contentproduct" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qtyproduct">QUANTITY</label>
+                                    <input type="number" class="form-control" name="qty_product" id="qtyproduct" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="priceproduct">PRICE</label>
+                                    <input type="number" class="form-control" name="price_product" id="priceproduct" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="imageproduct">IMAGE</label>
+                                    <input type="file" class="form-control" name="image_product" id="imageproduct" required>
+                                </div>
+                                <div class="form-group">
+                                <label for="selector">MODE</label>
+                                    <select name="status_product" class="form-control m-bot15" id="selector">
+                                        <option value="0" >Hide</option>
+                                        <option value="1" >Show</option>
+                                    </select>
+                                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
+<!-- Modal -->
      <?php
         $stt = 1;
         $message = Session::get('message_status');

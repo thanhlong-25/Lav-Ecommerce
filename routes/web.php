@@ -38,32 +38,29 @@ Route::get('/admin-logout', [AdminController::class, 'admin_logout' ]); // Log o
 Route::post('/admin-dashboard', [AdminController::class, 'admin_login' ]); // Log in
 
 // CATEGOTY
-Route::get('/add-category', [CategoryController::class, 'add_category' ]);
+Route::post('/add-category', [CategoryController::class, 'add_category' ]);
 Route::get('/edit-category/{param_cate_id}', [CategoryController::class, 'edit_category' ]);
 Route::post('/update-category/{param_cate_id}', [CategoryController::class, 'update_category' ]);
 Route::get('/delete-category/{param_cate_id}', [CategoryController::class, 'delete_category' ]);
 Route::get('/list-category', [CategoryController::class, 'list_category' ]);
-Route::post('/save-category', [CategoryController::class, 'save_category' ]);
 Route::get('/unactive-status-cate/{param_cate_id}', [CategoryController::class, 'unactive_status_cate' ]);
 Route::get('/active-status-cate/{param_cate_id}', [CategoryController::class, 'active_status_cate' ]);
 
 // BRANDS
-Route::get('/add-brand', [BrandController::class, 'add_brand' ]);
+Route::post('/add-brand', [BrandController::class, 'add_brand' ]);
 Route::get('/edit-brand/{param_brand_id}', [BrandController::class, 'edit_brand' ]);
 Route::post('/update-brand/{param_brand_id}', [BrandController::class, 'update_brand' ]);
 Route::get('/delete-brand/{param_brand_id}', [BrandController::class, 'delete_brand' ]);
 Route::get('/list-brand', [BrandController::class, 'list_brand' ]);
-Route::post('/save-brand', [BrandController::class, 'save_brand' ]);
 Route::get('/unactive-status-brand/{param_brand_id}', [BrandController::class, 'unactive_status_brand' ]);
 Route::get('/active-status-brand/{param_brand_id}', [BrandController::class, 'active_status_brand' ]);
 
 // PRODUCTS
-Route::get('/add-product', [ProductController::class, 'add_product' ]);
+Route::post('/add-product', [ProductController::class, 'add_product' ]);
 Route::get('/edit-product/{param_product_id}', [ProductController::class, 'edit_product' ]);
 Route::post('/update-product/{param_product_id}', [ProductController::class, 'update_product' ]);
 Route::get('/delete-product/{param_product_id}', [ProductController::class, 'delete_product' ]);
 Route::get('/list-product', [ProductController::class, 'list_product' ]);
-Route::post('/save-product', [ProductController::class, 'save_product' ]);
 Route::get('/unactive-status-product/{param_product_id}', [ProductController::class, 'unactive_status_product' ]);
 Route::get('/active-status-product/{param_product_id}', [ProductController::class, 'active_status_product' ]);
 
@@ -97,8 +94,7 @@ Route::post('/update-order-status', [CheckoutController::class, 'update_order_st
 Route::get('send-mail', [HomeController::class, 'send_mail']);
 
 //Coupon
-Route::get('/add-coupon', [CouponController::class, 'add_coupon' ]);
-Route::post('/save-coupon', [CouponController::class, 'save_coupon' ]);
+Route::post('/add-coupon', [CouponController::class, 'add_coupon' ]);
 Route::get('/list-coupon', [CouponController::class, 'list_coupon' ]);
 Route::get('/edit-coupon/{param_coupon_id}', [CouponController::class, 'edit_coupon' ]);
 Route::post('/update-coupon/{param_coupon_id}', [CouponController::class, 'update_coupon' ]);
@@ -107,12 +103,11 @@ Route::post('/check-coupon', [CouponController::class, 'check_coupon' ]);
 
 //SLider Banner
 Route::get('/list-banner', [BannerController::class, 'list_banner' ]);
-Route::get('/add-banner', [BannerController::class, 'add_banner' ]);
+Route::post('/add-banner', [BannerController::class, 'add_banner' ]);
 Route::get('/delete-banner/{param_banner_id}', [BannerController::class, 'delete_banner' ]);
 Route::get('/show-banner', [BannerController::class, 'show_banner' ]);
 Route::get('/unactive-status-banner/{param_banner_id}', [BannerController::class, 'unactive_status_banner' ]);
 Route::get('/active-status-banner/{param_banner_id}', [BannerController::class, 'active_status_banner' ]);
-Route::post('/save-banner', [BannerController::class, 'save_banner' ]);
 
 
 //Delivery

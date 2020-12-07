@@ -84,7 +84,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>CATEGORIES</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="{{URL::to('add-category')}}">Add Category</a></li>
                         <li><a href="{{URL::to('list-category')}}">List Category</a></li>
                     </ul>
                 </li>
@@ -95,7 +94,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>BRANDS</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="{{URL::to('add-brand')}}">Add Brands</a></li>
                         <li><a href="{{URL::to('list-brand')}}">List Brands</a></li>
                     </ul>
                 </li>
@@ -106,7 +104,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>PRODUCTS</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="{{URL::to('add-product')}}">Add Product</a></li>
                         <li><a href="{{URL::to('list-product')}}">List Product</a></li>
                     </ul>
                 </li>      
@@ -125,7 +122,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>COUPONS</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="{{URL::to('add-coupon')}}">Insert Coupon</a></li>
                         <li><a href="{{URL::to('list-coupon')}}">List Coupon</a></li>
                     </ul>
                 </li> 
@@ -135,7 +131,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>SLIDER BANNER</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="{{URL::to('add-banner')}}">Insert Banner</a></li>
                         <li><a href="{{URL::to('list-banner')}}">List Banner</a></li>
                     </ul>
                 </li> 

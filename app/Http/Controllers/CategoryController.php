@@ -26,19 +26,13 @@ class CategoryController extends Controller
         }
         }
 
-    public function add_category(){
-        $this->authenLogin();
-        return view('/admin.Category.add_category');
-    }
-
     public function list_category(){
         $this->authenLogin();
         $all_category = Category::orderBy('cate_id','Desc')->paginate(10);
-        $manage_category = view('admin.Category.list_category')->with('all_category', $all_category);
-        return view('admin.admin_dashboard')->with('admin.Category.list_category', $manage_category);
+        return view('admin.Category.list_category')->with(compact('all_category'));
     }
 
-    public function save_category(Request $request){
+    public function add_category(Request $request){
         $this->authenLogin();
         $data = $request->all();
 
