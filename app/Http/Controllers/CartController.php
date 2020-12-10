@@ -45,12 +45,16 @@ class CartController extends Controller
     public function update_cart(Request $request){
         $data = $request->all();
         $cart = Session::get('cart');
+       
         if($cart == true){
             foreach($data['cart_qty'] as $key => $qty){
                 foreach($cart as $session => $value){
-                    if($value['session_id'] == $key){
+                    $product_inventory = Product::where('product_id', $cart[$session]['product_id'])->select('product_inventory')->first();
+                    $inventory = $product_inventory->product_inventory;
+                    if($value['session_id'] == $key && $inventory > $qty){
                         $cart[$session]['product_qty'] = $qty;
                     }
+                    return redirect()->back()->with('error', "Cập nhật giỏ hàng thất bại!");
                 }
             }
             Session::put('cart', $cart);
@@ -81,6 +85,7 @@ class CartController extends Controller
                     'product_price' => $data['cart_product_price'],
                     'product_image' => $data['cart_product_image'],
                     'product_qty' => $data['cart_product_qty'],
+                    'product_inventory' => $data['product_inventory'],
                 );
                 Session::put('cart', $cart);
             }
@@ -92,6 +97,7 @@ class CartController extends Controller
                 'product_price' => $data['cart_product_price'],
                 'product_image' => $data['cart_product_image'],
                 'product_qty' => $data['cart_product_qty'],
+                'product_inventory' => $data['product_inventory'],
             );
                 Session::put('cart', $cart);
         }

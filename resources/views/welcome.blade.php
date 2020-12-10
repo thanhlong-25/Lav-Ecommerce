@@ -444,8 +444,12 @@ Session::get("customer_id");
 			var cart_product_image = $('#cart_product_image_' + id).val();
 			var cart_product_price = $('#cart_product_price_' + id).val();
 			var cart_product_qty = $('#cart_product_qty_' + id).val();
+			var product_inventory = $('#product_inventory_' + id).val();
 			var _token = $('input[name="_token"]').val();
 
+			if(parseInt(product_inventory) < parseInt(cart_product_qty)){
+				swal("Thất bại!", "Sản phẩm trong kho không đủ!", "error");
+			}else{
 			$.ajax({
 				url: '{{url('/add-cart-ajax')}}',
                 method: 'POST',
@@ -454,6 +458,7 @@ Session::get("customer_id");
 						  cart_product_image:cart_product_image,
 						   cart_product_price:cart_product_price,
 						    cart_product_qty: cart_product_qty,
+								product_inventory: product_inventory,
 								_token:_token},
 				success:function(data){
                        swal({
@@ -471,7 +476,8 @@ Session::get("customer_id");
 						});
 				}	
 			});
-		});
+		}	
+	});
 
 		// Click Chọn Thành Phố các thứ****************************************************************************
             $('.choose').on('change', function(){

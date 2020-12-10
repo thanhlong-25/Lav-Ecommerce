@@ -1,11 +1,6 @@
  @extends('admin_layout')
  @section('admin_content')
  <div class="table-agile-info">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      ALL orderS
-    </div>
-    
     <?php
         $stt = 1;
         $message = Session::get('message_status');
@@ -24,40 +19,33 @@
         }
         Session::forget('message');
 	    ?>
-
-   
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
             <th>#</th>
             <th>ID</th>
-            <th>ORDER OWNER</th>
-            <th>PAYMENT</th>
-            <th>COUPON USED</th>
-            <th>ORDER VALUE</th>
-            <th>STATUS</th>
-            <th>ORDER DATE</th>
-            <th>CONTROL</th>
+            <th>USERNAME</th>
+            <th>EMAIL</th>
+            <th>PHONE</th>
+            <th>CREATED AT</th>
+            <th style="width:30px;"></th>
           </tr>
         </thead>
         <tbody>
 
         {{-- ######################################################################################################################################################### --}}
         {{-- ######################################################################################################################################################### --}}
-        @foreach($all_order as $key => $order)
+        @foreach($all_user as $key => $user_value)
           <tr>
             <td>{{$stt}}</td>
-            <td>{{$order->order_id}}</td>
-            <td>{{$order->shipping_name}}</td>
-            <td>{{$order->payment_method}}</td>
-            <td>{{number_format($order->coupon_code,0,',','.')}}đ</td>
-            <td>{{number_format($order->order_total,0,',','.')}}đ</td>
-            <td>{{$order->order_status}}</td>
-            <td>{{$order->created_at}}</td>
-            <td><a href="{{URL::to('view-order/'.$order->order_id)}}" class="active"><i class="fa fa-eye text-success text-active"></i></a></td>
+            <td>{{$user_value->customer_id}}</td>
+            <td>{{$user_value->customer_name}}</td>
+            <td>{{$user_value->customer_email}}</td>
+            <td>{{$user_value->customer_phone}}</td>
+            <td>{{$user_value->created_at}}</td>
           </tr>
-          <?php
+           <?php
               $stt += 1;
           ?>
           @endforeach
@@ -65,7 +53,7 @@
       </table>
     </div>
     <footer class="panel-footer">
-        <span>{{$all_order->links('vendor.pagination.custom_pagination')}}<span>
+        <span>{{$all_user->links('vendor.pagination.custom_pagination')}}<span>
     </footer>
   </div>
 </div>

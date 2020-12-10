@@ -61,6 +61,7 @@
         <thead>
           <tr>
             <th>#</th>
+            <th>ID</th>
             <th>CATEGORY NAME</th>
             <th>DESCRIPTION</th>
             <th>STATUS</th>
@@ -76,6 +77,7 @@
         @foreach($all_category as $key => $cate)
           <tr>
             <td>{{$stt}}</td>
+            <td>{{$cate->cate_id}}</td>
             <td>{{$cate->cate_name}}</td>
             <td>{{$cate->cate_description}}</td>
             <td><span class="text-ellipsis">

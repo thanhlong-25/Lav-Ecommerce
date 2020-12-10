@@ -10,6 +10,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DeliveryAddressController;
+use App\Http\Controllers\UserController;
+use App\Models\UserCustomer;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index' ]);
 Route::get('/trang-chu', [HomeController::class, 'index' ]);
 Route::post('/tim-kiem', [HomeController::class, 'search_product' ]);
+Route::get('/404', [HomeController::class], 'error_page');
 Route::get('/danh-muc-san-pham/{cate_id}', [CategoryController::class, 'danh_muc_san_pham' ]);
 Route::get('/thuong-hieu-san-pham/{brand_id}', [BrandController::class, 'thuong_hieu_san_pham' ]);
 Route::get('/chi-tiet-san-pham/{product_id}', [ProductController::class, 'chi_tiet_san_pham' ]);
@@ -76,6 +79,9 @@ Route::get('/logout-checkout', [CheckoutController::class, 'logout_checkout' ]);
 Route::post('/register-customer', [CheckoutController::class, 'register_customer' ]);
 Route::post('/login-customer', [CheckoutController::class, 'login_customer' ]);
 Route::post('/send-orther', [CheckoutController::class, 'send_orther' ]);
+
+//User 
+Route::get('/list-user', [UserController::class, 'list_user' ]);
 
 //PDF
 Route::get('/print-order/{order_id}', [CheckoutController::class, 'print_order' ]);

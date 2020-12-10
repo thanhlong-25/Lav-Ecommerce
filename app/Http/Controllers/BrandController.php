@@ -40,7 +40,7 @@ class BrandController extends Controller
         //$all_brand = Brand::orderBy('brand_id','Desc')->take(4)->get();  lấy 4 giá trị thôi
         //$all_brand = Brand::orderBy('brand_id','Desc')->paginate(4)->get();  phân trang
         $all_brand = Brand::orderBy('brand_id','Desc')->paginate(10);
-        return view('admin..Brand.list_brand')->with(compact('all_brand'));
+        return view('admin.Brand.list_brand')->with(compact('all_brand'));
     }
 
     public function add_brand(Request $request){

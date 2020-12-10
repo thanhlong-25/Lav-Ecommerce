@@ -41,15 +41,14 @@ class CheckoutController extends Controller
     public function manage_order(){
         $this->authenLogin();
         $all_order = Order::join('tbl_usercustomer', 'tbl_usercustomer.customer_id','=', 'tbl_order.customer_id')
-            ->join('tbl_shipping', 'tbl_shipping.shipping_id','=', 'tbl_order.shipping_id')->orderBy('order_id', 'desc')->get();
-        $manage_order = view('admin.Order.manage_order')->with('all_order', $all_order);
-        return view('admin.admin_dashboard')->with('admin.Order.manage_order', $manage_order);
+            ->join('tbl_shipping', 'tbl_shipping.order_id','=', 'tbl_order.order_id')->orderBy('order_id', 'desc')->get();
+        return view('admin.Order.manage_order')->with('all_order');
     }
 
     public function view_order($order_id){
         $this->authenLogin();
         $order = Order::join('tbl_usercustomer', 'tbl_usercustomer.customer_id','=', 'tbl_order.customer_id')
-        ->join('tbl_shipping', 'tbl_shipping.shipping_id','=', 'tbl_order.shipping_id')
+        ->join('tbl_shipping', 'tbl_shipping.order_id','=', 'tbl_order.order_id')
         ->join('tbl_order_details', 'tbl_order_details.order_id','=', 'tbl_order.order_id')
         ->where('tbl_order.order_id', $order_id)->get();
 
@@ -61,14 +60,14 @@ class CheckoutController extends Controller
     public function list_order(){
         $this->authenLogin();
         $all_order = Order::join('tbl_usercustomer', 'tbl_usercustomer.customer_id','=', 'tbl_order.customer_id')
-        ->join('tbl_shipping', 'tbl_shipping.shipping_id','=', 'tbl_order.shipping_id')->orderBy('tbl_order.created_at', 'desc')->paginate(10);
+        ->join('tbl_shipping', 'tbl_shipping.order_id','=', 'tbl_order.order_id')->orderBy('tbl_order.created_at', 'desc')->paginate(10);
         return view('admin.Order.list_order')->with(compact('all_order'));
     }
 
     public function update_order_status(Request $request){
         $this->authenLogin();
         $data = $request->all();
-        $cart_quantity = $data['quantity'];
+        $order_quantity = $data['order_quantity'];
         $product_id = $data['product_id'];
         $order_id = $data['order_id'];
         $status = $data['status'];
@@ -76,21 +75,19 @@ class CheckoutController extends Controller
         if($status == "Đã giao"){
             foreach($product_id as $key => $id_value){
                 $product = Product::find($id_value);
-                $product_quantity = $product->product_qty;
+                $product_inventory = $product->product_inventory;
                 $product_sold = $product->product_sold;
-                foreach($cart_quantity as $key2 => $quantity){
-                        if($key == $key2){
-                            $product_remain = $product_quantity - $quantity;
-                            $product->product_qty =  $product_remain;
+                foreach($order_quantity as $key2 => $quantity){
+                    if($key == $key2){
+                            $product_remain = $product_inventory - $quantity;
+                            $product->product_inventory =  $product_remain;
                             $product->product_sold = $product_sold + $quantity;
-                            $product->save();
-                        }
                     }
+                }
+                $product->save();
             }
         }
-
         Order::where('order_id', $order_id)->update(['order_status' => $status]);
-        return redirect()->back();
     }
 
     public function print_order($checkout_code){
@@ -103,7 +100,7 @@ class CheckoutController extends Controller
     public function print_order_convert($checkout_code){
         $this->authenLogin();
         $order = Order::join('tbl_usercustomer', 'tbl_usercustomer.customer_id','=', 'tbl_order.customer_id')
-        ->join('tbl_shipping', 'tbl_shipping.shipping_id','=', 'tbl_order.shipping_id')
+        ->join('tbl_shipping', 'tbl_shipping.order_id','=', 'tbl_order.order_id')
         ->join('tbl_order_details', 'tbl_order_details.order_id','=', 'tbl_order.order_id')
         ->where('tbl_order.order_id', $checkout_code)->get();
 
@@ -294,27 +291,26 @@ class CheckoutController extends Controller
         $district_name = District::where('district_id', $district)->select('district_name')->first();;
         $subdistrict_name = SubDistrict::where('subdistrict_id', $subdistrict)->select('subdistrict_name')->first();;
 
-        $data = array();
-        $data['shipping_name'] = $request->shipping_name;
-        $data['shipping_email'] = $request->shipping_email;
-        $data['shipping_phone'] = $request->shipping_phone;
-        $data['shipping_address'] = $subdistrict_name->subdistrict_name .", " .$district_name->district_name .", " .$city_name->city_name;
-        $data['shipping_note'] = $request->shipping_note;
-        $data['created_at'] = now();
-
-        $shipping_id = DB::table('tbl_shipping')->insertGetId($data);
-        Session::put('shipping_id', $shipping_id);
-
         //insert order
         $data_orther = array();
         $data_orther['customer_id'] = Session::get('customer_id'); // khi đăng nhập thì ta sẽ có customer ID, thì lấy thôi
-        $data_orther['shipping_id'] = Session::get('shipping_id'); // tương tự
         $data_orther['payment_method'] = $request->payment_option; //
         $data_orther['coupon_code'] =  $request->total_promote;                         // $coupon[$sessioncoupon]['coupon_code'];
         $data_orther['created_at'] = now();
         $data_orther['order_total'] = $request->total;
         $data_orther['order_status'] = "Chờ xử lí";
         $get_order_id = DB::table('tbl_order')->insertGetId($data_orther); // insertGetID nghĩa là khi insert xong sẽ getID luôn, để làm một số thứ
+
+        // insert shipping
+        $data_shipping = array();
+        $data_shipping['order_id'] = $get_order_id;
+        $data_shipping['shipping_name'] = $request->shipping_name;
+        $data_shipping['shipping_email'] = $request->shipping_email;
+        $data_shipping['shipping_phone'] = $request->shipping_phone;
+        $data_shipping['shipping_address'] = $subdistrict_name->subdistrict_name .", " .$district_name->district_name .", " .$city_name->city_name;
+        $data_shipping['shipping_note'] = $request->shipping_note;
+        $data_shipping['created_at'] = now();
+        DB::table('tbl_shipping')->insert($data_shipping);
 
        //insert order
        //$content = Cart::content();
@@ -329,7 +325,6 @@ class CheckoutController extends Controller
        }
 
        if($data_orther['payment_method'] == "pay_by_ATM"){
-
             return redirect()->back()->with('message', "Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên lạc với bạn sớm nhất có thể!");  
        }else if($data_orther['payment_method'] == "pay_by_cash"){
             if($coupon){

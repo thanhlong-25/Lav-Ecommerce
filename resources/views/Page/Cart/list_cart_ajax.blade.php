@@ -43,6 +43,9 @@
     @if(Session::get('cart') == true)
 <?php
     $session_cart = Session::get('cart');
+    echo "<pre>";
+    print_r($session_cart);
+    echo "</pre>";
 ?>
 <?php
     $total = 0;

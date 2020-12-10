@@ -13,6 +13,7 @@
             <input type="hidden" id="cart_product_name_{{$value_detail_product->product_id}}" value="{{$value_detail_product->product_name}}">
             <input type="hidden" id="cart_product_image_{{$value_detail_product->product_id}}" value="{{$value_detail_product->product_image}}">
             <input type="hidden" id="cart_product_price_{{$value_detail_product->product_id}}" value="{{$value_detail_product->product_price}}">
+            <input type="hidden" id="product_inventory_{{$value_detail_product->product_id}}" value="{{$value_detail_product->product_inventory}}">
 
             <div id="similar-product" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
@@ -47,7 +48,7 @@
         <span>
             <span>{{number_format($value_detail_product->product_price,0,',','.')}}đ</span>
             <label>Nhập số lượng:</label>
-            <input id="cart_product_qty_{{$value_detail_product->product_id}}" type="number" min="1" max="{{$value_detail_product->product_qty}}" value="1" />
+            <input id="cart_product_qty_{{$value_detail_product->product_id}}" type="number" min="1" max="{{$value_detail_product->product_inventory}}" value="1" />
             <input name="productId_hidden" type="hidden" value="{{$value_detail_product->product_id}}" />
 			<?php 
 				$customer_id = Session::get('customer_id');
@@ -63,7 +64,7 @@
 			?>
             
         </span>
-        <p><b>Còn lại:</b> {{$value_detail_product->product_qty}} sản phẩm</p>
+        <p><b>Còn lại:</b> {{$value_detail_product->product_inventory}} sản phẩm</p>
         <p><b>Danh mục:</b> {{$value_detail_product->cate_name}}</p>
         <p><b>Thương hiệu:</b> {{$value_detail_product->brand_name}}</p>
         <p><b>Giới thiệu:</b> {{$value_detail_product->product_description}}</p>
@@ -85,7 +86,7 @@
     </div>
     <div class="tab-content">
         <div class="tab-pane fade active in" id="details">
-            <p>{{$value_detail_product->product_content}}</p>
+            <p>{{$value_detail_product->product_description}}</p>
         </div>
         <div class="tab-pane fade" id="companyprofile">
             <div class="col-sm-3">

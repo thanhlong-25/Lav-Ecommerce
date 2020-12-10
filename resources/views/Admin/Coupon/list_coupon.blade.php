@@ -73,6 +73,7 @@
         <thead>
           <tr>
             <th>#</th>
+            <th>ID</th>
             <th>COUPON NAME</th>
             <th>CODE</th>
             <th>QUANTITY</th>
@@ -90,6 +91,7 @@
         @foreach($all_coupon as $key => $coupon)
           <tr>
             <td>{{$stt}}</td>
+            <td>{{$coupon->coupon_id}}</td>
             <td>{{$coupon->coupon_name}}</td>
             <td>{{$coupon->coupon_code}}</td>
             <td>{{$coupon->coupon_qty}}</td>

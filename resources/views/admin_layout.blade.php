@@ -27,16 +27,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--logo start-->
 <div class="brand">
     <a href="index.html" class="logo">
-        ADMIN
+        MANAGER
     </a>
 </div>
 <!--logo end-->
 <div class="top-nav clearfix">
     <!--search & user info start-->
     <ul class="nav pull-right top-menu">
-        <li>
-            <input type="text" class="form-control search" placeholder=" Search">
-        </li>
         <!-- user login dropdown start-->
         <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -77,6 +74,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <i class="fa fa-dashboard"></i>
                         <span>DASHBOARD</span>
                     </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-tasks"></i>
+                        <span>USER</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="{{URL::to('list-user')}}">List User</a></li>
+                    </ul>
                 </li>
                 <li class="sub-menu">
                     <a href="javascript:;">
@@ -168,7 +174,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backEnd/js/jquery.nicescroll.js')}}"></script>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="{{asset('public/backEnd/js/jquery.scrollTo.js')}}"></script>
-<script src="{{asset('public/frontEnd/js/sweetalert.js')}}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 {{-- JQUERY Validation --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
@@ -343,27 +349,44 @@ $(document).on('blur', '.shippingcost_edit', function(){    // class shippingcos
                 var order_id = $('#order_id').val(); 
                 var status = $(this).val();
                 var _token = $('input[name="_token"]').val();
-                quantity = [];
+                order_quantity = [];
                 // Lấy số lượng
                 $("input[name='product_sales_quantity']").each(function(){
-                    quantity.push($(this).val());
+                    order_quantity.push($(this).val());
                 });
                 // lấy id
                 product_id = [];
                 $("input[id='product_id']").each(function(){
                     product_id.push($(this).val());
                 });
-                alert("" + quantity)
-                $.ajax({
-				url: '{{url('/update-order-status')}}',
-                method: 'POST',
-				data:{  
-                    order_id:order_id,
-					status:status,
-                    quantity: quantity,
-                    product_id: product_id,
-					_token:_token},
-			        });       
+                    count = 0; // biến đếm số row không đạt chuẩn
+                    for(i = 0; i < product_id.length; i++){
+                        var order_qty = order_quantity[i]; // số lượng sản phẩm trong order
+                        var product_inventory = $('#product_inventory_' + product_id[i]).val(); // số lượng trong kho
+                        if(parseInt(order_qty) > parseInt(product_inventory)){
+                            count += 1;
+                            $('.row_status_' + product_id[i]).css('background', '#F0BCB4'); // đổi màu cho row không đạt chuẩn
+                        }
+                    }
+
+                    if(count == 0){
+                        $.ajax({
+                            url: '{{url('/update-order-status')}}',
+                            method: 'POST',
+                            data:{  
+                                order_id:order_id,
+                                status:status,
+                                order_quantity: order_quantity,
+                                product_id: product_id,
+                                _token:_token},
+                        success:function(data){
+                            swal("Successfully!", "Order confirmation success!", "success").then((value) => {location.reload();
+                                });
+                            }
+                        }); 
+                    }else{
+                        swal("Warning!", "Inventory is not available!", "error");     
+                    }
                 });
             })
 </script>

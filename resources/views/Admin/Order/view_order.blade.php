@@ -2,6 +2,7 @@
  @section('admin_content')
 @foreach($order as $key => $order_value)
 @endforeach
+
 <input type="hidden" name="order_id" id="order_id" value="{{$order_value->order_id}}">
 
 <div class="table-agile-info">
@@ -42,7 +43,7 @@
       ORDER DETAILS
     </div>
     <div class="table-responsive">
-      <table class="table table-striped b-t b-light">
+      <table class="table ">
         <thead>
           <tr>
             <th>#</th>    
@@ -56,13 +57,14 @@
           $stt = 1;
           ?>
         @foreach($order_detail as $key => $order_detail_value)
-          <tr>
+          <tr class="row_status_{{$order_detail_value->product_id}}">
             <td>{{$stt}}</td>
             <td>{{$order_detail_value->product_name}}</td>
             <td>{{number_format($order_detail_value->product_price,0,',','.')}}đ</td>
-            <td>{{$order_detail_value->product_sales_quantity}}</td>
+            <td value="{{$order_detail_value->product_sales_quantity}}">{{$order_detail_value->product_sales_quantity}}</td>
             <input type="hidden" name="product_id" id="product_id" value="{{$order_detail_value->product_id}}">
             <input type="hidden" name="product_sales_quantity" id="product_sales_quantity" value="{{$order_detail_value->product_sales_quantity}}">
+            <input type="hidden" id="product_inventory_{{$order_detail_value->product_id}}" value="{{$order_detail_value->product_inventory}}">
           </tr>
           <?php
             $stt += 1;

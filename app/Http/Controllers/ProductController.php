@@ -48,8 +48,7 @@ class ProductController extends Controller
         $product->product_name  = $data['name_product']; // "brand_name" là tên cột trong database -- "name_brand" là name trong html
         $product->cate_id  = $data['cate_id_product'];
         $product->brand_id  = $data['brand_id_product'];
-        $product->product_content  = $data['content_product'];
-        $product->product_qty  = $data['qty_product'];
+        $product->product_inventory  = $data['inventory_product'];
         $product->product_price  = $data['price_product'];
         $product->product_status  = $data['status_product'];
         $product->product_description  = $data['description_product'];
@@ -98,8 +97,7 @@ class ProductController extends Controller
         $product->product_name  = $data['name_product']; // "brand_name" là tên cột trong database -- "name_brand" là name trong html
         $product->cate_id  = $data['cate_id_product'];
         $product->brand_id  = $data['brand_id_product'];
-        $product->product_content  = $data['content_product'];
-        $product->product_qty  = $data['qty_product'];
+        $product->product_inventory  = $data['inventory_product'];
         $product->product_price  = $data['price_product'];
         $product->product_description  = $data['description_product'];
         $data['updated_at'] = new DateTime();

@@ -56,8 +56,8 @@
                                     <textarea style="resize: none" rows="5" class="form-control" name="content_product" id="contentproduct">{{$product_value->product_content}}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="qtyproduct">QUANTITY</label>
-                                    <input type="number" class="form-control" value="{{$product_value->product_qty}}" name="qty_product" id="qtyproduct">
+                                    <label for="inventoryproduct">QUANTITY</label>
+                                    <input type="number" class="form-control" value="{{$product_value->product_inventory}}" name="inventory_product" id="inventoryproduct">
                                 </div>
                                 <div class="form-group">
                                     <label for="priceproduct">PRICE</label>

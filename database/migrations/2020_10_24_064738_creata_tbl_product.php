@@ -19,8 +19,7 @@ class CreataTblProduct extends Migration
             $table->integer('brand_id');
             $table->string('product_name', 100);
             $table->text('product_description');
-            $table->text('product_content');
-            $table->integer('product_qty');
+            $table->integer('product_inventory');
             $table->integer('product_sold');
             $table->string('product_price');
             $table->string('product_image');

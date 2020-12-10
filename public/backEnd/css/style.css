@@ -40,7 +40,7 @@ body a:hover{
 }
 	/*sidebar navigation*/
 #sidebar {
-    width:240px;
+    width:280px;
     height:100%;
     position:fixed;
     background:rgba(52, 48, 48, 0.78);
@@ -197,7 +197,7 @@ ul.sidebar-menu li a.active i {
 }
 /*main content*/
 #main-content {
-    margin-left:240px;
+    margin-left:280px;
     -webkit-transition:all .3s ease-in-out;
     -moz-transition:all .3s ease-in-out;
     -o-transition:all .3s ease-in-out;
@@ -228,7 +228,7 @@ ul.sidebar-menu li a.active i {
     transition:all .3s ease-in-out;
 }
 .merge-header {
-    margin-right:240px;
+    margin-right:280px;
 }
 .fixed-top {
     position:fixed;
@@ -241,9 +241,9 @@ ul.sidebar-menu li a.active i {
     width:100%;
 }
 .brand {
-    background:#8b5c7e;
+    background:#47A447;
     float:left;
-    width:240px;
+    width:280px;
     height:80px;
     position:relative;
 }
@@ -1920,7 +1920,7 @@ a.mail-dropdown {
     padding:20px;
 }
 .btn-compose {
-    background:#f0bcb4;
+    background:#47A447;
     padding:12px 0;
     text-align:center;
     width:100%;
@@ -2285,7 +2285,7 @@ ul.inbox-pagination li {
     padding: 12px 0px;
     letter-spacing: 2px;
     display: inline-block;
-    background: #f0bcb4;
+    background: #47a447;
     transition: 0.5s all;
     -webkit-transition: 0.5s all;
     -o-transition: 0.5s all;
@@ -2407,7 +2407,7 @@ input.ggg{
 	-ms-transition:0.5s all;
 }
 .w3layouts-main a:hover{
-	color:#f0bcb4;
+	columns: #47A447;;
 	transition:0.5s all;
 	-webkit-transition:0.5s all;
 	-o-transition:0.5s all;
@@ -2419,7 +2419,7 @@ input.ggg{
     font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    background: #f0bcb4;
+    background: #47A447;
     color: white;
     border: none;
     outline: none;
@@ -2441,7 +2441,7 @@ input.ggg{
 	-ms-transition:0.5s all;
 }
 .w3layouts-main p a {
-    color: #f0bcb4;
+    color: #47a447;
     padding: 10px;
 }
 .w3layouts-main p a:hover {

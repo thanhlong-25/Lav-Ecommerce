@@ -15,12 +15,17 @@ session_start();
 
 class HomeController extends Controller
 {
+
+    public function error_page(){
+        return view('errors.404');
+    }
+
     public function index(){
         $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
         $all_product = Product::where('product_status', '1')->orderBy('product_id', 'desc')->paginate(8);
         $banner = Banner::where('banner_status', '1')->get();
-
+        
         //return view('Page.home')->with('all_cate', $cate_product)->with('all_brand', $brand_product)->with('all_product', $product); // Cách 1
         return view('Page.home')->with(compact('all_cate', 'all_brand', 'all_product', 'banner')); // Cách 2
         // Page.home là đường dẫn đến file home.blade.php

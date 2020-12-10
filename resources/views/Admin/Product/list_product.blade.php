@@ -37,12 +37,8 @@
                                     <textarea style="resize: none" rows="5" class="form-control" name="description_product" id="descriptionproduct" required></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="contentproduct">CONTENT</label>
-                                    <input type="text" class="form-control" name="content_product" id="contentproduct" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="qtyproduct">QUANTITY</label>
-                                    <input type="number" class="form-control" name="qty_product" id="qtyproduct" required>
+                                    <label for="inventoryproduct">INVENTORY</label>
+                                    <input type="number" class="form-control" name="inventory_product" id="inventoryproduct" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="priceproduct">PRICE</label>
@@ -96,7 +92,7 @@
             <th>PRODUCT NAME</th>
             <th>CATEGORY</th>
             <th>BRAND</th>
-            <th>QUANTITY</th>
+            <th>INVENTORY</th>
             <th>SOLD</th>
             <th>PRICE</th>
             <th>IMAGE</th>
@@ -115,7 +111,7 @@
             <td>{{$product->product_name}}</td>
             <td>{{$product->cate_name}}</td>
             <td>{{$product->brand_name}}</td>
-            <td>{{$product->product_qty}}</td>
+            <td>{{$product->product_inventory}}</td>
             <td>{{$product->product_sold}}</td>
             <td>{{number_format($product->product_price,0,',','.')}}</td>
             <td><img src="public/upload/products/{{$product->product_image}}" height="100px" height="100px"></td>

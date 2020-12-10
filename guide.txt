@@ -11,6 +11,8 @@ php artisan --version                                   // xem version
 php artisan migrate::rollback                           // CTRL + Z
 composer require laravel/socialite                      // login facebook
 
+vendor >> laravel >> framework >> src >> foundation >> Exception >> view   // THiết lập 404 page
+
 composer require maatwebsite/excel                      // nhập xuất data qua excel
 (xong rồi thêm 2 cái này vào config->app.php Maatwebsite\Excel\ExcelServiceProvider::class; và Maatwebsite\Excel\Facades\Excel::class,)
 

@@ -63,6 +63,7 @@
         <thead>
           <tr>
             <th>#</th>
+            <th>ID</th>
             <th>BRAND NAME</th>
             <th>DESCRIPTION</th>
             <th>STATUS</th>
@@ -77,6 +78,7 @@
         @foreach($all_brand as $key => $brand)
           <tr>
             <td>{{$stt}}</td>
+            <td>{{$brand->brand_id}}</td>
             <td>{{$brand->brand_name}}</td>
             <td>{{$brand->brand_description}}</td>
             <td>

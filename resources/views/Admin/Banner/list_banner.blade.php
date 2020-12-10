@@ -60,6 +60,7 @@
         <thead>
           <tr>
             <th>#</th>
+            <th>ID</th>
             <th>BANNER NAME</th>
             <th>BANNER IMAGE</th>
             <th>STATUS</th>
@@ -73,6 +74,7 @@
           @foreach($banner as $key => $banner_value)
           <tr>
             <td>{{$stt}}</td>
+            <td>{{$banner_value->banner_id}}</td>
             <td>{{$banner_value->banner_name}}</td>
             <td><img src="public/upload/banners/{{$banner_value->banner_image}}" height="100px" height="100px"></td>
             <td>
