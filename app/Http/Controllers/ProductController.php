@@ -35,13 +35,14 @@ class ProductController extends Controller
         $all_brand = Brand::orderBy('brand_id', 'desc')->get();
         $all_product = Product::join('tbl_category', 'tbl_category.cate_id','=', 'tbl_product.cate_id')
             ->join('tbl_brand', 'tbl_brand.brand_id','=', 'tbl_product.brand_id')
-            ->orderByDesc('tbl_product.product_id')->paginate(10);
+            ->orderByDesc('tbl_product.product_id')->paginate(20);
      
         return view('admin..Product.list_product')->with(compact('all_product', 'all_brand', 'all_cate'));
     }
 
     public function add_product(Request $request){
         $this->authenLogin();
+        $this->validation($request);
         $data = $request->all();
 
         $product = new Product();
@@ -91,6 +92,7 @@ class ProductController extends Controller
 
     public function update_product(Request $request, $param_product_id){
         $this->authenLogin();
+        $this->validation($request);
         $data = $request->all();
 
         $product = Product::find($param_product_id);
@@ -149,6 +151,15 @@ class ProductController extends Controller
         Session::put('message_status', "Showed " .'"'."'$get_product_name->product_name'".'"' );
         return Redirect::to('/list-product');
     }
+
+    public function validation($request){
+        return $this->validate($request,[
+           'name_product' => ['required', 'max:255'],
+           'description_product' => ['required', 'max:255'],
+           'inventory_product' => ['required', 'max:255'],
+           'price_product' => ['required', 'max:255'],
+        ]);
+     }
 
 
     // #########################################################################################################v#######

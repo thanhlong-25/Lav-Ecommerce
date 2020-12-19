@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE html>
 <head>
-<title>MANAGER - LOGIN</title>
+<title>MANAGER - REGISTER</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -14,6 +14,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <link rel="stylesheet" href="{{asset('public/backEnd/css/bootstrap.min.css')}}" >
 <!-- //bootstrap-css -->
 <!-- Custom CSS -->
+
 <link href="{{asset('public/backEnd/css/style.css')}}" rel='stylesheet' type='text/css'/>
 <link href="{{asset('public/backEnd/css/style-responsive.css')}}" rel="stylesheet"/>
 <!-- font CSS -->
@@ -27,7 +28,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <body>
 <div class="log-w3">
 <div class="w3layouts-main">
-	<h2>LOGIN</h2>
+	<h2>REGISTER</h2>
 	<!-- /############################################################################################################## -->
 	<!-- /#####################################################PHP###################################################### -->
 @if(session()->has('message'))
@@ -39,23 +40,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     {{session() -> get('error')}}
     </div>
 @endif
-@if($errors->has('g-recaptcha-response'))
-	<div class="alert alert-danger">{{$errors->first('g-recaptcha-response')}}</div>
-@endif
-		<form action="{{URL::to('/admin-login')}}" method="post">
+		<form action="{{URL::to('/admin-register')}}" method="post">
 		{{ csrf_field() }}
-			<input type="text" class="ggg" name="admin_email" placeholder="E-MAIL" value="sunday03082014@gmail.com">
-			<input type="password" class="ggg" name="admin_password" placeholder="PASSWORD" value="thanhlong">
-			<span><input type="checkbox" />Remember Me</span>
-			
-			{{-- Google Captcha ##############-##############-##############-##############-##############-##############-##############-##############--}}
-			<div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}"></div>
-
-				<div class="clearfix"></div>
-				
-				<input type="submit" value="Login" name="login">
+		@foreach($errors->all() as $value)
+			<div class="alert alert-danger">{{$value}}</div>
+		@endforeach
+			<input type="text" class="ggg" name="admin_name" placeholder="NAME" value="{{old('admin_name')}}">
+			<input type="number" class="ggg" name="admin_phone" placeholder="PHONE NUMBER" value="{{old('admin_phone')}}">
+			<input type="text" class="ggg" name="admin_email" placeholder="E-MAIL" value="{{old('admin_email')}}">
+			<input type="password" class="ggg" name="admin_password" placeholder="PASSWORD" value="">
+			<input type="password" class="ggg" name="admin_repassword" placeholder="RE-PASSWORD" value="">
+		
+			<input type="submit" value="Register" name="login">
 		</form>
-		<p>Don't Have an Account ?<a href="{{URL::to('/register')}}">Create an account</a></p>
+		<p>Already have an Account ?<a href="{{URL::to('/admin')}}">Login</a></p>
 
 </div>
 </div>

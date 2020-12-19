@@ -25,6 +25,7 @@ class CouponController extends Controller
     }
     public function add_coupon(Request $request){
         $this->authenLogin();
+        $this->validation($request);
         $data = $request->all();
 
         $coupon = new Coupon();
@@ -56,6 +57,7 @@ class CouponController extends Controller
 
     public function update_coupon(Request $request, $param_coupon_id){
         $this->authenLogin();
+        $this->validation($request);
         $data = $request->all();
 
         $coupon = coupon::find($param_coupon_id);
@@ -119,5 +121,15 @@ class CouponController extends Controller
         }else{
             return Redirect::to('/show-cart-ajax')->with('error', "Mã giảm giá không tồn tại");
         }
+    }
+
+    public function validation($request){
+        return $this->validate($request,[
+            'name_coupon' => ['required', 'max:255'],
+            'code_coupon' => ['required', 'max:15'],
+            'qty_coupon' => ['required', 'max:255'],
+            'max_promote_coupon' => ['required', 'max:255'],
+            'value_coupon' => ['required', 'max:255'],   
+        ]);
     }
 }

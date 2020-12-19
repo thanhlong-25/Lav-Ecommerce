@@ -280,9 +280,11 @@ class CheckoutController extends Controller
         
     }
 
-
     public function send_orther(Request $request){
-        $coupon = Session::get('coupon'); foreach($coupon as $sessioncoupon => $value){}
+        $coupon = Session::get('coupon'); 
+        if($coupon){
+            foreach($coupon as $sessioncoupon => $value){}
+        }
         $cart = Session::get('cart'); 
         $city = $request->city_province; 
         $district = $request->district;

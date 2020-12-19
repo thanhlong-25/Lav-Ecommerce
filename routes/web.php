@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BrandController;
@@ -34,11 +35,14 @@ Route::get('/danh-muc-san-pham/{cate_id}', [CategoryController::class, 'danh_muc
 Route::get('/thuong-hieu-san-pham/{brand_id}', [BrandController::class, 'thuong_hieu_san_pham' ]);
 Route::get('/chi-tiet-san-pham/{product_id}', [ProductController::class, 'chi_tiet_san_pham' ]);
 
-// BACK END
+// // BACK END
 Route::get('/admin', [AdminController::class, 'admin' ]);
 Route::get('/dashboard', [AdminController::class, 'show_dashboard' ]);
 Route::get('/admin-logout', [AdminController::class, 'admin_logout' ]); // Log out
-Route::post('/admin-dashboard', [AdminController::class, 'admin_login' ]); // Log in
+Route::post('/admin-login', [AdminController::class, 'admin_login' ]); // Log in
+Route::get('/register', [AdminController::class, 'register' ]);
+Route::post('/admin-register', [AdminController::class, 'admin_register' ]);
+
 
 // CATEGOTY
 Route::post('/add-category', [CategoryController::class, 'add_category' ]);
@@ -82,6 +86,7 @@ Route::post('/send-orther', [CheckoutController::class, 'send_orther' ]);
 
 //User 
 Route::get('/list-user', [UserController::class, 'list_user' ]);
+Route::get('/delete-user/{param_customer_id}', [UserController::class, 'delete_user' ]);
 
 //PDF
 Route::get('/print-order/{order_id}', [CheckoutController::class, 'print_order' ]);

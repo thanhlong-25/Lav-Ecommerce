@@ -60,7 +60,7 @@
                         <td class="col-sm-3"><img src="{{URL::to('public/upload/products/'.$value_cart['product_image'])}}" height="200px" width="160px" /></td>
                         <td class="col-sm-2">{{$value_cart['product_name']}}</td>
                         <td>{{number_format($value_cart['product_price'],0,',','.')}}đ</td>
-                        <td><input type="number" name="cart_qty[{{$value_cart['session_id']}}]" min="1" value="{{$value_cart['product_qty']}}"></td>
+                        <td><input type="number" name="cart_qty[{{$value_cart['session_id']}}]" min="1" max="{{$value_cart['product_inventory']}}" value="{{$value_cart['product_qty']}}"></td>
                         <td class="col-sm-2">{{number_format($subtotal,0,',','.')}}đ</td>
                         <td class="cart_delete col-sm-2"><a class="cart_quantity_delete" href="{{URL::to('/delete-cart/'.$value_cart['session_id'])}}"><i class="fa fa-times"></i></a></td>
                     </tr>

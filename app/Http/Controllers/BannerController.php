@@ -28,6 +28,7 @@ class BannerController extends Controller
 
     public function add_banner(Request $request){
         $this->authenLogin();
+        $this->validation($request);
         $data = $request->all();
 
         $banner = new Banner();
@@ -88,6 +89,12 @@ class BannerController extends Controller
         Session::put('message_status', "Showed " .'"'."'$get_banner_name->banner_name'".'"');
         return Redirect::to('/list-banner');
     }
+
+    public function validation($request){
+        return $this->validate($request,[
+           'name_banner' => ['required', 'max:255'],
+        ]);
+     }
 
     // #########################################################################################################v#######
     // ###########################################CLIENT#####################################################v##########

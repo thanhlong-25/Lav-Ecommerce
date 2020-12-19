@@ -28,4 +28,12 @@ class UserController extends Controller
         $all_user = UserCustomer::orderBy('customer_id', 'DESC')->paginate(10);
         return view('admin.User.list_user')->with(compact('all_user'));
     }
+
+    public function delete_user($param_customer_id){
+        $this->authenLogin();
+        UserCustomer::find($param_customer_id)->delete();
+        Session::put('message', "Delete Successfully!!!");
+        return Redirect::to('/list-user');
+    }
+
 }

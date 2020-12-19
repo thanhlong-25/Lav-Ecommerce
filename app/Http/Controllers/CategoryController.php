@@ -34,6 +34,7 @@ class CategoryController extends Controller
 
     public function add_category(Request $request){
         $this->authenLogin();
+        $this->validation($request);
         $data = $request->all();
 
         $category = new Category();
@@ -55,6 +56,7 @@ class CategoryController extends Controller
 
     public function update_category(Request $request, $param_cate_id){
         $this->authenLogin();
+        $this->validation($request);
         $data = $request->all();
 
         $cate = Category::find($param_cate_id);
@@ -89,6 +91,13 @@ class CategoryController extends Controller
         Category::where('cate_id', $param_cate_id)->update(['cate_status'=>1]);
         Session::put('message_status', "Showed " .'"'."'$get_category_name->cate_name'".'"');
         return Redirect::to('/list-category');
+    }
+
+    public function validation($request){
+        return $this->validate($request, [
+            'name_category' => ['required', 'max:255'],
+            'description_category' => ['required', 'max:255']
+        ]);
     }
 
     // #########################################################################################################v#######

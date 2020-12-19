@@ -37,7 +37,9 @@
     </div>
 </div>
 <!-- Modal -->
-    
+    @foreach($errors->all() as $value)
+        <div class="alert alert-danger">{{$value}}</div>
+    @endforeach
     <?php
         $stt = 1;
         $message = Session::get('message_status');

@@ -6,13 +6,9 @@
                         <header class="panel-heading">
                             UPDATE COUPON
                         </header>
-                        <?php
-                            $message = Session::get('message');
-                            if($message){
-                                echo "<p align='center'> <font color=green size='2px'> $message </font></p>";
-                                Session::forget('message');
-                            }
-	                    ?>
+                        @foreach($errors->all() as $value)
+                            <div class="alert alert-danger">{{$value}}</div>
+                        @endforeach
                         <div class="panel-body">
                         @foreach($update_coupon as $key => $coupon_value)
                             <div class="position-center">

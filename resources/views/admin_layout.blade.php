@@ -36,21 +36,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <ul class="nav pull-right top-menu">
         <!-- user login dropdown start-->
         <li class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+            <a data-toggle="dropdown" class="dropdown-toggle" onclick="myFunction()">
                 <img alt="" src="{{asset('public/backEnd/images/profile.jpg')}}">
                 <span class="username">
 	<!-- /############################################################################################################## -->
 	<!-- /#####################################################PHP###################################################### -->
-	<?php
-		$name = Session::get('admin_name');
-		if($name){
-			echo $name;
-		}
-	?>
+                <?php
+                    $name = Session::get('admin_name');
+                    if($name){
+                        echo $name;
+                    }
+                ?>
 				</span>
-                <b class="caret"></b>
             </a>
-            <ul class="dropdown-menu extended logout">
+            <ul id="dropdown-menu" class="dropdown-menu extended logout">
                 <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
                 <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
                 <li><a href="{{URL::to('admin-logout')}}"><i class="fa fa-key"></i> Log Out</a></li>
@@ -179,33 +178,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 <script type='text/javascript'>
-$(function() {
-  // Initialize form validation on the registration form.
-  // It has the name attribute "registration"
-  $("form[name='add_category_form']").validate({
-    // Specify validation rules
-    rules: {
-      // The key name on the left side is the name attribute
-      // of an input field. Validation rules are defined
-      // on the right side
-      nameCategory: {required =  true, 
-      minlength: 5
-      },
-      description_category: "required",
-      minlength: 5
-    },
-    // Specify validation error messages
-    messages: {
-      name_category: "Please enter your firstname",
-      description_category: "Please enter your lastname",
-    },
-    // Make sure the form is submitted to the destination defined
-    // in the "action" attribute of the form when valid
-    submitHandler: function(form) {
-      form.submit();
+function myFunction() {
+  document.getElementById("dropdown-menu").classList.toggle("show");
+}
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropdown')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
     }
-  });
-});
+  }
+}
 </script>
 <!-- morris JavaScript -->	
 <script>

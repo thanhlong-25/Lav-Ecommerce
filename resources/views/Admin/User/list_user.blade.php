@@ -29,6 +29,7 @@
             <th>EMAIL</th>
             <th>PHONE</th>
             <th>CREATED AT</th>
+            <th>ACTION</th>
             <th style="width:30px;"></th>
           </tr>
         </thead>
@@ -44,6 +45,7 @@
             <td>{{$user_value->customer_email}}</td>
             <td>{{$user_value->customer_phone}}</td>
             <td>{{$user_value->created_at}}</td>
+            <td><a href="{{URL::to('delete-user/'.$user_value->customer_id)}}" onclick="return confirm('Do you want to delete?')" class="active"><i class="fa fa-times text-danger text"></i></a></td>
           </tr>
            <?php
               $stt += 1;

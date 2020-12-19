@@ -37,8 +37,6 @@ class CartController extends Controller
         }
 
         // rowId là biến tự sinh trong framework
-        $cate_product =  Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
-        $brand_product =  Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
         return Redirect::to('/show-cart');
     }
 
@@ -49,12 +47,13 @@ class CartController extends Controller
         if($cart == true){
             foreach($data['cart_qty'] as $key => $qty){
                 foreach($cart as $session => $value){
-                    $product_inventory = Product::where('product_id', $cart[$session]['product_id'])->select('product_inventory')->first();
-                    $inventory = $product_inventory->product_inventory;
-                    if($value['session_id'] == $key && $inventory > $qty){
+                    //$product_inventory = Product::where('product_id', $cart[$session]['product_id'])->select('product_inventory')->first();
+                    //$inventory = $product_inventory->product_inventory;
+                    //if($value['session_id'] == $key && $inventory > $qty){
+                    if($value['session_id'] == $key){
                         $cart[$session]['product_qty'] = $qty;
+                    }else{     
                     }
-                    return redirect()->back()->with('error', "Cập nhật giỏ hàng thất bại!");
                 }
             }
             Session::put('cart', $cart);
@@ -63,7 +62,6 @@ class CartController extends Controller
             return redirect()->back()->with('error', "Cập nhật giỏ hàng thất bại!");
         }
     }
-
 
     // AJAX /////////////////////////////////////////////////////////////////////////////////////
     public function add_cart_ajax(Request $request){

@@ -6,13 +6,9 @@
                         <header class="panel-heading">
                             UPDATE BRAND
                         </header>
-                        <?php
-                            $message = Session::get('message');
-                            if($message){
-                                echo "<p align='center'> <font color=green size='2px'> $message </font></p>";
-                                Session::forget('message');
-                            }
-	                    ?>
+                        @foreach($errors->all() as $value)
+                            <div class="alert alert-danger">{{$value}}</div>
+                        @endforeach
                         <div class="panel-body">
                         @foreach($update_brand as $key => $brand_value)
                             <div class="position-center">
@@ -20,7 +16,7 @@
                                 {{ csrf_field() }}
                                 <div class="form-group">
                                     <label for="namebrand">NAME</label>
-                                    <input type="text" class="form-control" value="{{$brand_value->brand_name}}" name="name_brand" id="namebrand" placeholder="Enter email">
+                                    <input type="text" class="form-control" value="{{$brand_value->brand_name}}" name="name_brand" id="namebrand>
                                 </div>
                                 <div class="form-group">
                                     <label for="descriptionbrand">DESCRIPTION</label>

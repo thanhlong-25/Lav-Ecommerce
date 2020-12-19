@@ -57,6 +57,7 @@ class BrandController extends Controller
         // return Redirect::to('/list-brand');
 
         $this->authenLogin();
+        $this->validation($request);
         $data = $request->all();
 
         $brand = new Brand();
@@ -79,6 +80,7 @@ class BrandController extends Controller
 
     public function update_brand(Request $request, $param_brand_id){
         $this->authenLogin();
+        $this->validation($request);
         $data = $request->all();
 
         $brand = Brand::find($param_brand_id);
@@ -115,6 +117,13 @@ class BrandController extends Controller
         Session::put('message_status', "Showed " .'"'."'$get_brand_name->brand_name'".'"');
         return Redirect::to('/list-brand');
     }
+
+    public function validation($request){
+        return $this->validate($request,[
+           'name_brand' => ['required', 'max:255'],
+           'description_brand' => ['required', 'max:255'],
+        ]);
+     }
 
     // #########################################################################################################v#######
     // ###########################################CLIENT#####################################################v##########
