@@ -23,7 +23,6 @@ class BrandSeeder extends Seeder
         for($i = 0; $i < 10; $i++){
         $brand = Brand::create([
             'brand_name' => $faker->lastName,
-            'brand_description' => $faker->catchPhrase,
             'brand_status' => $faker->numberBetween($min = 0, $max = 1),
             'created_at' => now(),
         ]);}

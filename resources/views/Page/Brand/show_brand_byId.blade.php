@@ -23,7 +23,7 @@
 								</div>
 								<div class="choose">
 									<ul class="nav nav-pills nav-justified">
-										<li><a href="{{URL::to('chi-tiet-san-pham/'.$value_product_byId->product_id)}}"><i class="fa fa-shopping-cart"></i>Chi tiết</a></li>
+										<li><a href="{{URL::to('chi-tiet-san-pham/'.$value_product_byId->product_slug)}}"><i class="fa fa-shopping-cart"></i>Chi tiết</a></li>
 									</ul>
 								</div>
 							</div>

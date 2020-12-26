@@ -16,13 +16,12 @@
                                 {{ csrf_field() }}
                                 <div class="form-group">
                                     <label for="nameCategory">NAME</label>
-                                    <input type="text" class="form-control" value="{{$cate_value->cate_name}}" name="name_category" id="nameCategory" placeholder="Enter email">
+                                    <input type="text" class="form-control" onkeyup="ChangeToSlug();" value="{{$cate_value->cate_name}}" name="name_category" id="slug" placeholder="Enter email">
                                 </div>
                                 <div class="form-group">
-                                    <label for="descriptionCategory">DESCRIPTION</label>
-                                    <textarea style="resize: none" rows="8" class="form-control" name="description_category" id="descriptionCategory">{{$cate_value->cate_description}}</textarea>
+                                    <label for="slug">SLUG</label>
+                                    <input type="text" class="form-control" value="{{$cate_value->cate_slug}}" name="slug_category" id="convert_slug" readonly>
                                 </div>
-                                
                                 <button type="submit" name="submit_update_category" class="btn btn-primary btn-lg btn-block">UPDATE</button>
                             </form>
                             </div>

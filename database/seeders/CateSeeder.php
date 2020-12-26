@@ -23,7 +23,6 @@ class CateSeeder extends Seeder
         for($i = 0; $i < 10; $i++){
             $cate = Category::create([
                 'cate_name' => $faker->lastName,
-                'cate_description' => $faker->catchPhrase,
                 'cate_status' => $faker->numberBetween($min = 0, $max = 1),
                 'created_at' => now(),
             ]);}

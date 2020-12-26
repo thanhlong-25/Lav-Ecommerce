@@ -126,7 +126,7 @@ class CouponController extends Controller
     public function validation($request){
         return $this->validate($request,[
             'name_coupon' => ['required', 'max:255'],
-            'code_coupon' => ['required', 'max:15'],
+            'code_coupon' => ['required', 'max:15', 'unique'],
             'qty_coupon' => ['required', 'max:255'],
             'max_promote_coupon' => ['required', 'max:255'],
             'value_coupon' => ['required', 'max:255'],   

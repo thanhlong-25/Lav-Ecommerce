@@ -47,10 +47,12 @@ class ProductController extends Controller
 
         $product = new Product();
         $product->product_name  = $data['name_product']; // "brand_name" là tên cột trong database -- "name_brand" là name trong html
+        $product->product_slug  = $data['slug_product'];
         $product->cate_id  = $data['cate_id_product'];
         $product->brand_id  = $data['brand_id_product'];
         $product->product_inventory  = $data['inventory_product'];
         $product->product_price  = $data['price_product'];
+        $product->product_slug  = 0;
         $product->product_status  = $data['status_product'];
         $product->product_description  = $data['description_product'];
         $data['created_at'] = new DateTime();
@@ -100,6 +102,7 @@ class ProductController extends Controller
         $product->cate_id  = $data['cate_id_product'];
         $product->brand_id  = $data['brand_id_product'];
         $product->product_inventory  = $data['inventory_product'];
+        $product->product_slug  = $data['slug_product'];
         $product->product_price  = $data['price_product'];
         $product->product_description  = $data['description_product'];
         $data['updated_at'] = new DateTime();
@@ -129,9 +132,12 @@ class ProductController extends Controller
 
     public function delete_product($param_product_id){
         $this->authenLogin();
-        Product::where('product_id', $param_product_id)->delete();
+        $product = Product::find($param_product_id);
+        $product_image = $product->product_image;
+        unlink($product_image);
+        $product->delete();
         Session::put('message', "Delete Successfully!!!");
-        return Redirect::to('/list-product');
+        return redirect()->back();
     }
 
     // Thay đổi status ẩn hiện
@@ -165,14 +171,14 @@ class ProductController extends Controller
     // #########################################################################################################v#######
     // ###########################################CLIENT#####################################################v##########
 
-    public function chi_tiet_san_pham($product_id){
+    public function chi_tiet_san_pham($product_slug){
         $cate_product = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $brand_product = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
         $banner = Banner::where('banner_status', '1')->get();
         $detail_product = Product::join('tbl_category', 'tbl_category.cate_id','=', 'tbl_product.cate_id')
         ->join('tbl_brand', 'tbl_brand.brand_id','=', 'tbl_product.brand_id')
         ->where('tbl_product.product_status', '1')
-        ->where('tbl_product.product_id', $product_id)->get();
+        ->where('tbl_product.product_slug', $product_slug)->get();
 
 
         // lấy những sản phẩm thuộc danh mục --start
@@ -183,7 +189,7 @@ class ProductController extends Controller
         $relative_product = Product::join('tbl_category', 'tbl_category.cate_id','=', 'tbl_product.cate_id')
         ->join('tbl_brand', 'tbl_brand.brand_id','=', 'tbl_product.brand_id')
         ->where('tbl_product.product_status', '1')
-        ->whereNotIn('tbl_product.product_id', [$product_id]) // không lấy item hiện tại
+        ->whereNotIn('tbl_product.product_slug', [$product_slug]) // không lấy item hiện tại
         ->where('tbl_category.cate_id', $cate_id_relative)->get();
         // lấy những sản phẩm thuộc danh mục --end
 

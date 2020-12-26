@@ -14,11 +14,11 @@
                 <div class="modal-body">
                   <div class="form-group">
                     <label for="nameCategory">NAME</label>
-                    <input type="text" class="form-control" name="name_category" id="nameCategory" placeholder="Enter Category">
+                    <input type="text" class="form-control" onkeyup="ChangeToSlug();" name="name_category" id="slug" placeholder="Enter Category">
                   </div>
                   <div class="form-group">
-                    <label for="descriptionCategory">DESCRIPTION</label>
-                    <textarea style="resize: none" rows="8" class="form-control" name="description_category" id="descriptionCategory" maxlength="200" minlength="4" pattern="^[a-zA-Z0-9_.-]*$" required></textarea>
+                    <label for="exampleInputEmail1">SLUG</label>
+                    <input type="text" name="slug_category" class="form-control" id="convert_slug" placeholder="Slug" readonly>
                   </div>
                   <div class="form-group">
                     <label for="selector">MODE</label>
@@ -66,7 +66,6 @@
             <th>#</th>
             <th>ID</th>
             <th>CATEGORY NAME</th>
-            <th>DESCRIPTION</th>
             <th>STATUS</th>
             <th>LAST UPDATE</th>
             <th>ACTION</th>
@@ -82,7 +81,6 @@
             <td>{{$stt}}</td>
             <td>{{$cate->cate_id}}</td>
             <td>{{$cate->cate_name}}</td>
-            <td>{{$cate->cate_description}}</td>
             <td><span class="text-ellipsis">
             <?php   
                 if($cate->cate_status == 0){

@@ -12,9 +12,13 @@
                     <h2 class="modal-title" id="exampleModalLongTitle">Addition Product</h2>
                 </div>
                 <div class="modal-body">
-                  <div class="form-group">
+                                <div class="form-group">
                                     <label for="nameproduct">NAME</label>
-                                    <input type="text" class="form-control" name="name_product" id="nameproduct" placeholder="Enter name product" required>
+                                    <input type="text" class="form-control" name="name_product" onkeyup="ChangeToSlug();" id="slug" placeholder="Enter name product" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="exampleInputEmail1">SLUG</label>
+                                  <input type="text" name="slug_product" class="form-control" id="convert_slug" placeholder="Slug" readonly>
                                 </div>
                                 <div class="form-group">
                                 <label for="selector">CATEGORY</label>

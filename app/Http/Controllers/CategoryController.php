@@ -39,7 +39,7 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->cate_name  = $data['name_category']; // "brand_name" là tên cột trong database -- "name_brand" là name trong html
-        $category->cate_description  = $data['description_category'];
+        $category->cate_slug  = $data['slug_category'];
         $category->cate_status  = $data['status_category'];
         $category->created_at  = new DateTime();
         $category->save();
@@ -61,7 +61,7 @@ class CategoryController extends Controller
 
         $cate = Category::find($param_cate_id);
         $cate->cate_name  = $data['name_category']; // "brand_name" là tên cột trong database -- "name_brand" là name trong html
-        $cate->cate_description  = $data['description_category'];
+        $cate->cate_slug  = $data['slug_category'];
         $cate->updated_at  = new DateTime();
         $cate->save();
 
@@ -95,23 +95,22 @@ class CategoryController extends Controller
 
     public function validation($request){
         return $this->validate($request, [
-            'name_category' => ['required', 'max:255'],
-            'description_category' => ['required', 'max:255']
+            'name_category' => ['required', 'max:100', 'unique'],
         ]);
     }
 
     // #########################################################################################################v#######
     // ###########################################CLIENT#####################################################v##########
-    public function danh_muc_san_pham($cate_id){
+    public function danh_muc_san_pham($cate_slug){
         //$get_category_by_id = DB::table('tbl_category')->where('cate_id', $cate_id)->get();
         $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        $get_cate_name = Category::where('tbl_category.cate_slug', $cate_slug)->limit(1)->get();
         $banner = Banner::where('banner_status', '1')->get();
         $product_byId = Product::join('tbl_category', 'tbl_category.cate_id' ,'=', 'tbl_product.cate_id')
-        ->where('tbl_product.cate_id', $cate_id)
+        ->where('tbl_cate.cate_slug', $cate_slug)
         ->where('product_status', '1')->limit(4)->get();
-        $get_cate_name = Category::where('tbl_category.cate_id', $cate_id)->limit(1)->get();
-
+        
         return view('/Page.Category.show_category_byId')->with(compact('all_cate', 'all_brand', 'product_byId', 'get_cate_name' ,'banner'));
     }
 

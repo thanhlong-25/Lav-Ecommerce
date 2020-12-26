@@ -13,7 +13,7 @@ class Category extends Model
 
     protected $fillable = [
         'cate_name', 
-        'cate_description',
+        'cate_slug',
         'cate_status',
     ];
 }

@@ -14,11 +14,11 @@
                 <div class="modal-body">
                   <div class="form-group">
                     <label for="nameBrand">NAME</label>
-                    <input type="text" class="form-control" minlength="2" maxlength="20" name="name_brand" id="nameBrand" placeholder="Enter brand" required>
+                    <input type="text" class="form-control" minlength="2" onkeyup="ChangeToSlug();" maxlength="20" name="name_brand" id="slug" placeholder="Enter brand" required>
                   </div>
                   <div class="form-group">
-                    <label for="descriptionBrand">DESCRIPTION</label>
-                    <textarea style="resize: none" rows="8" class="form-control" minlength="2" maxlength="20" name="description_brand" id="descriptionBrand" required></textarea>
+                    <label for="exampleInputEmail1">SLUG</label>
+                    <input type="text" name="slug_brand" class="form-control" id="convert_slug" placeholder="Slug" readonly>
                   </div>
                   <div class="form-group">
                     <label for="selector">MODE</label>
@@ -67,7 +67,6 @@
             <th>#</th>
             <th>ID</th>
             <th>BRAND NAME</th>
-            <th>DESCRIPTION</th>
             <th>STATUS</th>
             <th>LAST UPDATE</th>
             <th>ACTION</th>
@@ -82,7 +81,6 @@
             <td>{{$stt}}</td>
             <td>{{$brand->brand_id}}</td>
             <td>{{$brand->brand_name}}</td>
-            <td>{{$brand->brand_description}}</td>
             <td>
             <?php   
                 if($brand->brand_status == 0){

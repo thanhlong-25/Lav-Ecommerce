@@ -8,6 +8,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DeliveryAddressController;
@@ -31,9 +32,9 @@ Route::get('/', [HomeController::class, 'index' ]);
 Route::get('/trang-chu', [HomeController::class, 'index' ]);
 Route::post('/tim-kiem', [HomeController::class, 'search_product' ]);
 Route::get('/404', [HomeController::class], 'error_page');
-Route::get('/danh-muc-san-pham/{cate_id}', [CategoryController::class, 'danh_muc_san_pham' ]);
-Route::get('/thuong-hieu-san-pham/{brand_id}', [BrandController::class, 'thuong_hieu_san_pham' ]);
-Route::get('/chi-tiet-san-pham/{product_id}', [ProductController::class, 'chi_tiet_san_pham' ]);
+Route::get('/danh-muc-san-pham/{cate_slug}', [CategoryController::class, 'danh_muc_san_pham' ]);
+Route::get('/thuong-hieu-san-pham/{brand_slug}', [BrandController::class, 'thuong_hieu_san_pham' ]);
+Route::get('/chi-tiet-san-pham/{product_slug}', [ProductController::class, 'chi_tiet_san_pham' ]);
 
 // // BACK END
 Route::get('/admin', [AdminController::class, 'admin' ]);

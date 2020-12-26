@@ -24,7 +24,12 @@ class HomeController extends Controller
         $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
         //$all_product = Product::where('product_status', '1')->orderBy('product_id', 'desc')->paginate(8);
-        $all_product = Product::where('product_status', '1')->orderBy(DB::raw('RAND()'))->paginate(8);
+        $all_product = Product::join('tbl_category', 'tbl_category.cate_id','=', 'tbl_product.cate_id')
+        ->join('tbl_brand', 'tbl_brand.brand_id','=', 'tbl_product.brand_id')
+        ->where('product_status', '1')
+        ->where('brand_status', '1')
+        ->where('cate_status', '1')
+        ->orderBy(DB::raw('RAND()'))->paginate(8);
         $banner = Banner::where('banner_status', '1')->get();
         
         //return view('Page.home')->with('all_cate', $cate_product)->with('all_brand', $brand_product)->with('all_product', $product); // Cách 1

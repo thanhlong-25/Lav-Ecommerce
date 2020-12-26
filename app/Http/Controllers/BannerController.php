@@ -68,9 +68,12 @@ class BannerController extends Controller
 
     public function delete_banner($param_banner_id){
         $this->authenLogin();
-        Banner::find($param_banner_id)->delete();
+        $banner = Banner::find($param_banner_id);
+        $banner_image = $banner->banner_image;
+        unlink('public/upload/banners/' .$banner_image);
+        $banner->delete();
         Session::put('message', "Delete Successfully!!!");
-        return Redirect::to('/list-banner');
+        return redirect()->back();
     }
 
 

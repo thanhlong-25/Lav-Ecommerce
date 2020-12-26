@@ -62,7 +62,7 @@ class BrandController extends Controller
 
         $brand = new Brand();
         $brand->brand_name  = $data['name_brand']; // "brand_name" là tên cột trong database -- "name_brand" là name trong html
-        $brand->brand_description  = $data['description_brand'];
+        $brand->brand_slug  = $data['slug_brand'];
         $brand->brand_status  = $data['status_brand'];
         $brand->created_at  = now();
         $brand->save();
@@ -85,7 +85,7 @@ class BrandController extends Controller
 
         $brand = Brand::find($param_brand_id);
         $brand->brand_name  = $data['name_brand']; // "brand_name" là tên cột trong database -- "name_brand" là name trong html
-        $brand->brand_description  = $data['description_brand'];
+        $brand->brand_slug  = $data['slug_brand'];
         $brand->updated_at  = now();
         $brand->save();
 
@@ -120,20 +120,19 @@ class BrandController extends Controller
 
     public function validation($request){
         return $this->validate($request,[
-           'name_brand' => ['required', 'max:255'],
-           'description_brand' => ['required', 'max:255'],
+           'name_brand' => ['required', 'max:100', 'unique'],
         ]);
      }
 
     // #########################################################################################################v#######
     // ###########################################CLIENT#####################################################v##########
-    public function thuong_hieu_san_pham($brand_id){
+    public function thuong_hieu_san_pham($brand_slug){
         $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
-        $get_brand_name = Brand::where('tbl_brand.brand_id', $brand_id)->limit(1)->get();
+        $get_brand_name = Brand::where('tbl_brand.brand_slug', $brand_slug)->limit(1)->get();
         $banner = Banner::where('banner_status', '1')->get();
         $product_byId = Product::join('tbl_brand', 'tbl_brand.brand_id' ,'=', 'tbl_product.brand_id')
-        ->where('tbl_product.brand_id', $brand_id)
+        ->where('tbl_brand.brand_slug', $brand_slug)
         ->where('product_status', '1')->limit(4)->get();
 
         return view('/Page.Brand.show_brand_byId')->with(compact('all_cate', 'all_brand', 'product_byId', 'get_brand_name' ,'banner'));

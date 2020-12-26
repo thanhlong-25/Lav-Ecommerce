@@ -16,8 +16,13 @@
                                 {{ csrf_field() }}
                                 <div class="form-group">
                                     <label for="nameproduct">NAME</label>
-                                    <input type="text" class="form-control" value="{{$product_value->product_name}}" name="name_product" id="nameproduct" placeholder="Enter email">
+                                    <input type="text" class="form-control" onkeyup="ChangeToSlug();" value="{{$product_value->product_name}}" name="name_product" id="slug" placeholder="Enter email">
                                 </div>
+                                <div class="form-group">
+                                    <label for="slug">SLUG</label>
+                                    <input type="text" class="form-control" value="{{$product_value->product_slug}}" name="slug_product" id="convert_slug" readonly>
+                                </div>
+
                                 <div class="form-group">
                                 <label for="selector">CATEGORY</label>
                                     <select name="cate_id_product" class="form-control m-bot15" id="selector">
@@ -46,10 +51,6 @@
                                 <div class="form-group">
                                     <label for="descriptionproduct">DESCRIPTION</label>
                                     <textarea style="resize: none" rows="5" class="form-control" name="description_product" id="descriptionproduct">{{$product_value->product_description}}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="contentproduct">CONTENT</label>
-                                    <textarea style="resize: none" rows="5" class="form-control" name="content_product" id="contentproduct">{{$product_value->product_content}}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="inventoryproduct">QUANTITY</label>

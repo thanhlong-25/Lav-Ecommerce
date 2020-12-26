@@ -16,7 +16,7 @@ class CreateTblCategory extends Migration
         Schema::create('tbl_category', function (Blueprint $table) {
             $table->increments('cate_id');
             $table->string('cate_name', 100)->unique();
-            $table->text('cate_description');
+            $table->text('cate_slug');
             $table->integer('cate_status');
             $table->timestamps();
         });

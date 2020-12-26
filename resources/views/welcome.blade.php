@@ -37,7 +37,7 @@ Session::get("customer_id");
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
+								<li><a href="#"><i class="fa fa-phone"></i> +0981803365</a></li>
 								<li><a href="#"><i class="fa fa-envelope"></i> long.tranthanh025@gmail.com</a></li>
 							</ul>
 						</div>
@@ -149,7 +149,7 @@ Session::get("customer_id");
 										<li><a href="{{URL::to('login-checkout')}}">Đăng nhập</a></li> 
                                     </ul>
                                 </li> 
-								<li class="dropdown"><a href="#">Diễn đàn<i class="fa fa-angle-down"></i></a>
+								<li class="dropdown"><a href="#">Tin tức<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="blog.html">Blog List</a></li>
 										<li><a href="blog-single.html">Blog Single</a></li>
@@ -221,23 +221,23 @@ Session::get("customer_id");
 			<div class="row">
 				<div class="col-sm-2">
 					<div class="left-sidebar">
-						<h2>Danh mục</h2>
-						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
-							@foreach($all_cate as $key => $cate)
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="{{URL::to('danh-muc-san-pham/'.$cate->cate_id)}}">{{$cate->cate_name}}</a></h4>
-								</div>
+						<div class="brands_products"><!--brands_products-->
+							<h2>Thương Hiệu</h2>
+							<div class="brands-name">
+								<ul class="nav nav-pills nav-stacked">
+								@foreach($all_cate as $key => $cate)
+									<li><a href="{{URL::to('thuong-hieu-san-pham/'.$cate->cate_slug)}}">{{$cate->cate_name}}</a></li>
+								@endforeach
+								</ul>
 							</div>
-							@endforeach
-						</div><!--/category-products-->
+						</div><!--/brands_products--><!--/category-products-->
 					
 						<div class="brands_products"><!--brands_products-->
 							<h2>Thương Hiệu</h2>
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
 								@foreach($all_brand as $key => $brand)
-									<li><a href="{{URL::to('thuong-hieu-san-pham/'.$brand->brand_id)}}">{{$brand->brand_name}}</a></li>
+									<li><a href="{{URL::to('thuong-hieu-san-pham/'.$brand->brand_slug)}}">{{$brand->brand_name}}</a></li>
 								@endforeach
 								</ul>
 							</div>
