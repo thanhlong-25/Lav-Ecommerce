@@ -21,8 +21,11 @@ class CateSeeder extends Seeder
         $faker = Faker::create();
         //UserCustomer::truncate(); // xoá database đang có
         for($i = 0; $i < 10; $i++){
-            $cate = Category::create([
-                'cate_name' => $faker->lastName,
+            $cate_name = $faker->lastName;
+            $slug =  Str::slug($cate_name, '-');
+            Category::create([
+                'cate_name' => $cate_name,
+                'cate_slug' => $slug,
                 'cate_status' => $faker->numberBetween($min = 0, $max = 1),
                 'created_at' => now(),
             ]);}

@@ -3,8 +3,8 @@
  <div class="table-agile-info">
  <button style="margin: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-plus" aria-hidden="true"></i>   Addition</button>
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form action="{{URL::to('add-product')}}" method="POST" enctype="multipart/form-data">
                   {{csrf_field()}}
@@ -50,7 +50,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="imageproduct">IMAGE</label>
-                                    <input type="file" class="form-control" name="image_product" id="imageproduct" required>
+                                    <input type="file" class="form-control" name="image_product" id="imageproduct" accept="image/*" onchange="loadFile(event)" required>
+                                    <img src="{{URL::to('public/backEnd/images/none_image.jpg')}}" id="output" width="550px" height="300px" style="padding:10px" />
                                 </div>
                                 <div class="form-group">
                                 <label for="selector">MODE</label>
@@ -96,12 +97,14 @@
         <thead>
           <tr>
             <th>#</th>
+            <th>ID</th>
             <th>PRODUCT NAME</th>
             <th>CATEGORY</th>
             <th>BRAND</th>
             <th>INVENTORY</th>
             <th>SOLD</th>
             <th>PRICE</th>
+            <th>GALLERY</th>
             <th>IMAGE</th>
             <th>STATUS</th>
             <th>ACTION</th>
@@ -115,12 +118,14 @@
         @foreach($all_product as $key => $product)
           <tr>
             <td>{{$stt}}</td>
+            <td>{{$product->product_id}}</td>
             <td>{{$product->product_name}}</td>
             <td>{{$product->cate_name}}</td>
             <td>{{$product->brand_name}}</td>
             <td>{{$product->product_inventory}}</td>
             <td>{{$product->product_sold}}</td>
             <td>{{number_format($product->product_price,0,',','.')}}</td>
+            <td><a href="{{url('list-gallery/'.$product->product_id)}}">View Gallery</td>
             <td><img src="public/upload/products/{{$product->product_image}}" height="100px" height="100px"></td>
             <td><span class="text-ellipsis">
             <?php   

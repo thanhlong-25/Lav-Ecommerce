@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Banner;
+use App\Models\Gallery;
+use File;
 use DateTime;
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();
@@ -45,6 +47,9 @@ class ProductController extends Controller
         $this->validation($request);
         $data = $request->all();
 
+        $path_product = 'public/upload/products/';
+        $path_gallery = 'public/upload/gallerys/';
+
         $product = new Product();
         $product->product_name  = $data['name_product']; // "brand_name" là tên cột trong database -- "name_brand" là name trong html
         $product->product_slug  = $data['slug_product'];
@@ -52,7 +57,7 @@ class ProductController extends Controller
         $product->brand_id  = $data['brand_id_product'];
         $product->product_inventory  = $data['inventory_product'];
         $product->product_price  = $data['price_product'];
-        $product->product_slug  = 0;
+        $product->product_slug  = $data['slug_product'];;
         $product->product_status  = $data['status_product'];
         $product->product_description  = $data['description_product'];
         $data['created_at'] = new DateTime();
@@ -66,11 +71,19 @@ class ProductController extends Controller
             $get_name_image = $get_image->getClientOriginalName(); //Get name của image tải lên
             $name_image = current(explode('.', $get_name_image)); // tách chuỗi theo dấu chấm nếu không file ảnh sẽ là Gallery.jpg.12.png là ăn
             //$new_image = $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-            $new_image = $name_image.'-'.$month.'-'.$day.'.'.$get_image->getClientOriginalExtension(); // tên ảnh cuối cùng
-            $get_image->move('public/upload/products', $new_image);
+            $new_image = $name_image.'-'.$month.'-'.$day. '-' .mt_rand(). '.' .$get_image->getClientOriginalExtension(); // tên ảnh cuối cùng
+            $get_image->move($path_product, $new_image);
+            File::copy($path_product.$new_image, $path_gallery.$new_image); // Form, TO. Sau khi thêm vào product thì copy đưa qua  gallerys
 
             $product->product_image  = $new_image;
             $product->save();
+
+            $get_product_id = $product->product_id; // Sau khi insert xong thi getId ra để xíu có cái đặng query đặng thêm vào Gallery
+            $gallery = new Gallery();
+            $gallery->gallery_image = $new_image;
+            $gallery->product_id = $get_product_id;
+            $gallery->save();
+
             Session::put('message', "Insert Successfully!!!");
             return Redirect::to('/list-product');
         }else{
@@ -110,13 +123,13 @@ class ProductController extends Controller
 
         if($get_image){
             $today = Carbon::today();  
-            $month = $today->monthName;      
+            $month = $today->month;      
             $day = $today->day;
 
             $get_name_image = $get_image->getClientOriginalName(); //Get name của image tải lên
             $name_image = current(explode('.', $get_name_image)); // tách chuỗi theo dấu chấm nếu không file ảnh sẽ là Gallery.jpg.12.png là ăn
             //$new_image = $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-            $new_image = $name_image.'-'.$month.'-'.$day.'.'.$get_image->getClientOriginalExtension(); // tên ảnh cuối cùng
+            $new_image = $name_image.'-'.$month.'-'.$day.'-'.mt_rand().'.'.$get_image->getClientOriginalExtension(); // tên ảnh cuối cùng
             $get_image->move('public/upload/products', $new_image);
 
             $product->product_image  = $new_image;
@@ -134,7 +147,7 @@ class ProductController extends Controller
         $this->authenLogin();
         $product = Product::find($param_product_id);
         $product_image = $product->product_image;
-        unlink($product_image);
+        unlink('public/upload/products/'.$product_image);
         $product->delete();
         Session::put('message', "Delete Successfully!!!");
         return redirect()->back();
@@ -160,10 +173,10 @@ class ProductController extends Controller
 
     public function validation($request){
         return $this->validate($request,[
-           'name_product' => ['required', 'max:255'],
+           'name_product' => ['required', 'max:100'],
            'description_product' => ['required', 'max:255'],
-           'inventory_product' => ['required', 'max:255'],
-           'price_product' => ['required', 'max:255'],
+           'inventory_product' => ['required', 'max:10'],
+           'price_product' => ['required', 'max:100'],
         ]);
      }
 
@@ -181,10 +194,13 @@ class ProductController extends Controller
         ->where('tbl_product.product_slug', $product_slug)->get();
 
 
-        // lấy những sản phẩm thuộc danh mục --start
+        // lấy những liên quan --start
         foreach($detail_product as $key => $product_recommended){
+            $product_id = $product_recommended->product_id;
             $cate_id_relative = $product_recommended->cate_id;
         }
+
+        $gallery = Gallery::where('product_id', $product_id)->limit(4)->get();
 
         $relative_product = Product::join('tbl_category', 'tbl_category.cate_id','=', 'tbl_product.cate_id')
         ->join('tbl_brand', 'tbl_brand.brand_id','=', 'tbl_product.brand_id')
@@ -198,6 +214,7 @@ class ProductController extends Controller
         ->with('all_brand', $brand_product)
         ->with('detail_product', $detail_product)
         ->with('product_recommended', $relative_product)
-        ->with('banner', $banner);
+        ->with('banner', $banner)
+        ->with('all_gallery', $gallery);
     }
 }

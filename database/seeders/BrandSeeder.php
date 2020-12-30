@@ -21,8 +21,11 @@ class BrandSeeder extends Seeder
         $faker = Faker::create();
         //UserCustomer::truncate(); // xoá database đang có
         for($i = 0; $i < 10; $i++){
+            $brand_name = $faker->lastName;
+            $slug =  Str::slug($brand_name, '-');
         $brand = Brand::create([
-            'brand_name' => $faker->lastName,
+            'brand_name' =>$brand_name,
+            'brand_slug' => $slug,
             'brand_status' => $faker->numberBetween($min = 0, $max = 1),
             'created_at' => now(),
         ]);}

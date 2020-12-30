@@ -120,7 +120,7 @@ class BrandController extends Controller
 
     public function validation($request){
         return $this->validate($request,[
-           'name_brand' => ['required', 'max:100', 'unique'],
+           'name_brand' => ['required', 'max:100'],
         ]);
      }
 

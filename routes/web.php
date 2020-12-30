@@ -12,6 +12,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DeliveryAddressController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\UserController;
 use App\Models\UserCustomer;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,13 @@ Route::get('/list-product', [ProductController::class, 'list_product' ]);
 Route::get('/unactive-status-product/{param_product_id}', [ProductController::class, 'unactive_status_product' ]);
 Route::get('/active-status-product/{param_product_id}', [ProductController::class, 'active_status_product' ]);
 
+//GALLERY
+Route::get('/list-gallery/{product_id}', [GalleryController::class, 'list_gallery' ]);
+Route::post('/load-gallery', [GalleryController::class, 'load_gallery' ]);
+Route::post('/add-gallery/{product_id}', [GalleryController::class, 'add_gallery' ]);
+Route::post('/delete-gallery', [GalleryController::class, 'delete_gallery' ]);
+Route::post('/update-gallery', [GalleryController::class, 'update_gallery' ]);
+
 // CART
 Route::get('/delete-cart/{session_id}', [CartController::class, 'delete_cart' ]);
 Route::post('/update-cart', [CartController::class, 'update_cart' ]);
@@ -92,10 +100,6 @@ Route::get('/delete-user/{param_customer_id}', [UserController::class, 'delete_u
 //PDF
 Route::get('/print-order/{order_id}', [CheckoutController::class, 'print_order' ]);
 Route::get('/print-order-convert/{order_id}', [CheckoutController::class, 'print_order_convert' ]);
-
-// Excel 
-Route::post('export-excel', [ProductController::class, 'export_excel']);
-Route::post('import-excel', [ProductController::class, 'import_excel']);
 
 //Order
 Route::get('/view-order/{order_id}', [CheckoutController::class, 'view_order' ]);

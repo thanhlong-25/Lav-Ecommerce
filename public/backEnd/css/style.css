@@ -1,9 +1,4 @@
-/*
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
-*/
+
 h4, h5, h6,
 h1, h2, h3 {margin: 0;}
 ul, ol {margin: 0;}
@@ -14,7 +9,7 @@ html, body{
 	font-family: 'Roboto', sans-serif;
     font-size: 100%;
     overflow-x: hidden;
-    background: url(../images/bg.jpg) no-repeat 0px 0px;
+
 	background-size:cover;
 }
 body a{
@@ -60,44 +55,7 @@ body a:hover{
     list-style-type: none;
     padding-left: 0;
 }
-/*LEFT NAVIGATION ICON*/
-.dcjq-icon {
-    height:17px;
-    width:17px;
-    display:inline-block;
-    background:url(../images/nav-expand.png) no-repeat top;
-    border-radius:3px;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-    position:absolute;
-    right:10px;
-}
-.active .dcjq-icon {
-    background:url(../images/nav-expand.png) no-repeat bottom;
-    border-radius:3px;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-}
-.right-side-accordion .dcjq-icon {
-    height:17px;
-    width:17px;
-    display:inline-block;
-    background:url(../images/acc-expand.png) no-repeat top;
-    border-radius:3px;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-    position:absolute;
-    right:10px;
-}
-.right-side-accordion .active .dcjq-icon {
-    background:url(../images/acc-expand.png) no-repeat bottom;
-    border-radius:3px;
-    -moz-border-radius:3px;
-    -webkit-border-radius: 3px;
-}
-.right-side-accordion li:nth-child(2) ul li .prog-row {
-    border: none;
-}
+/
 /*---*/
 .nav-collapse.collapse {
     display:inline;
@@ -1657,7 +1615,7 @@ p.hd-title {
     font-size: 20px;
     margin-bottom: 1em;
 }
-.bg-success {
+.   -success {
     color: #c6efd0;
     background-color: #27c24c;
 }

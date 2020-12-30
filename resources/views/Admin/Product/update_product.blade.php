@@ -62,8 +62,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="imageproduct">IMAGE</label>
-                                    <input type="file" class="form-control" name="image_product" id="imageproduct">
-                                    <img src="{{URL::to('public/upload/products/'.$product_value->product_image)}}" height="200px" width="200px">
+                                    <input type="file" class="form-control" name="image_product" id="imageproduct" accept="image/*" onchange="loadFile(event)">
+                                    <img src="{{URL::to('public/upload/products/'.$product_value->product_image)}}" height="300px" width="480px" style="padding:10px" >
+                                    <img src="{{URL::to('public/backEnd/images/none_image.jpg')}}" id="output" width="480px" height="300px" style="padding:10px" />
                                 </div>
                                 
                                 <button type="submit" name="submit_update_product" class="btn btn-primary btn-lg btn-block">UPDATE</button>

@@ -45,7 +45,7 @@ class BannerController extends Controller
             $get_name_image = $get_image->getClientOriginalName(); //Get name của image tải lên
             $name_image = current(explode('.', $get_name_image)); // tách chuỗi theo dấu chấm nếu không file ảnh sẽ là Gallery.jpg.12.png là ăn
             //$new_image = $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-            $new_image = $name_image.'-'.$month.'-'.$day.'-'.time().'.'.$get_image->getClientOriginalExtension(); // tên ảnh cuối cùng
+            $new_image = $name_image.'-'.$month.'-'.$day. '-' .mt_rand(). '.' .$get_image->getClientOriginalExtension(); // tên ảnh cuối cùng
             $get_image->move('public/upload/banners', $new_image);
 
             $banner->banner_image  = $new_image;

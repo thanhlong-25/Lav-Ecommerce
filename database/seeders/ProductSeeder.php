@@ -24,9 +24,12 @@ class ProductSeeder extends Seeder
         $brand = Brand::all()->pluck('brand_id')->toArray();
         $cate = Category::all()->pluck('cate_id')->toArray();
         //UserCustomer::truncate(); // xoá database đang có~
-        for($i = 0; $i < 20; $i++){
-        $product = Product::create([
-            'product_name' => $faker->lastName,
+        for($i = 0; $i < 10; $i++){
+            $product_name = $faker->name;
+            $slug =  Str::slug($product_name, '-');
+            Product::create([
+            'product_name' => $product_name,
+            'product_slug' => $slug,
             'cate_id' => $faker->randomElement($cate),
             'brand_id' =>$faker->randomElement($brand),
             'product_description' => $faker->catchPhrase,

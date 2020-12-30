@@ -3,8 +3,8 @@
  <div class="table-agile-info">
  <button style="margin: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-plus" aria-hidden="true"></i>   Addition</button>
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form action="{{URL::to('add-banner')}}" method="POST" enctype="multipart/form-data">
                   {{csrf_field()}}
@@ -18,7 +18,8 @@
                   </div>
                   <div class="form-group">
                     <label for="imageBanner">IMAGE</label>
-                    <input type="file" class="form-control" name="image_banner" id="imageBanner" required>
+                    <input type="file" class="form-control" name="image_banner" id="imageBanner" accept="image/*" onchange="loadFile(event)" required>
+                    <img src="{{URL::to('public/backEnd/images/none_image.jpg')}}" id="output" width="550px" height="300px" style="padding:10px" />
                   </div>
                   <div class="form-group">
                     <label for="selector">MODE</label>
@@ -79,7 +80,7 @@
             <td>{{$stt}}</td>
             <td>{{$banner_value->banner_id}}</td>
             <td>{{$banner_value->banner_name}}</td>
-            <td><img src="public/upload/banners/{{$banner_value->banner_image}}" height="100px" height="100px"></td>
+            <td><img src="public/upload/banners/{{$banner_value->banner_image}}" height="120px" height="120px"></td>
             <td>
             <?php   
                 if($banner_value->banner_status == 0){

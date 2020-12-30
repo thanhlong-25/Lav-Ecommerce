@@ -3,6 +3,7 @@
 <title>DASHBOARD</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="csrf-token" content="{{csrf_token()}}">
 <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -142,15 +143,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-tasks"></i>
-                        <span>BLOG</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="{{URL::to('list-blog')}}">List Blog</a></li>
-                    </ul>
-                </li> 
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-tasks"></i>
                         <span>DELIVERY ADDRESS</span>
                     </a>
                     <ul class="sub">
@@ -276,30 +268,6 @@ $(document).on('blur', '.shippingcost_edit', function(){    // class shippingcos
                 }	
             });
     });
-
-// Click thêm****************************************************************************
-        $('#add_shippingcost').click( function(){
-            var city = $('#city_province_id').val();
-            var district = $('#district_id').val();
-            var subdistrict = $('#subdistrict_id').val();
-            var cost = $('#shippingcost').val();
-            var _token = $('input[name="_token"]').val();
-            $.ajax({
-                   url: '{{url('/add-cost')}}',
-                    method: 'POST',
-                    data:{
-                        city:city, 
-                        district:district,
-                        subdistrict:subdistrict,
-                        cost:cost,
-                        _token:_token},
-                    success:function(data){
-                        alert('Insert Successfully!!!');
-                        fetch_delivery();
-    				    }	
-                    });
-                });
-
 // Click Chọn Thành Phố các thứ****************************************************************************
             $('.choose').on('change', function(){
                 var action = $(this).attr('id');    //hành động xem xét dựa vào id
@@ -370,5 +338,16 @@ $(document).on('blur', '.shippingcost_edit', function(){    // class shippingcos
                     }
                 });
             })
+</script>
+
+{{-- Preview Image before upload --}}
+<script>
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  };
 </script>
 </html>

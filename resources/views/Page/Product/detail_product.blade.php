@@ -1,45 +1,22 @@
 @extends('welcome')
 @section('content')
 @foreach($detail_product as $key => $value_detail_product)
-<div class="product-details">
-    <!--product-details-->
-    <div class="col-sm-5">
-        <div class="view-product">
-            <img src="{{URL::to('public/upload/products/'.$value_detail_product->product_image)}}"/>
-        </div>
-        <form>
-            @csrf
-            <input type="hidden" id="cart_product_id_{{$value_detail_product->product_id}}" value="{{$value_detail_product->product_id}}">
+<input type="hidden" id="cart_product_id_{{$value_detail_product->product_id}}" value="{{$value_detail_product->product_id}}">
             <input type="hidden" id="cart_product_name_{{$value_detail_product->product_id}}" value="{{$value_detail_product->product_name}}">
             <input type="hidden" id="cart_product_image_{{$value_detail_product->product_id}}" value="{{$value_detail_product->product_image}}">
             <input type="hidden" id="cart_product_price_{{$value_detail_product->product_id}}" value="{{$value_detail_product->product_price}}">
             <input type="hidden" id="product_inventory_{{$value_detail_product->product_id}}" value="{{$value_detail_product->product_inventory}}">
-
-            <div id="similar-product" class="carousel slide" data-ride="carousel">
-                <!-- Wrapper for slides -->
-				<div class="carousel-inner">
-					<div class="item active">
-						<a href=""><img src="{{URL::to('public/frontEnd/images/product-details/similar1.jpg')}}" alt=""></a>
-						<a href=""><img src="{{URL::to('public/frontEnd/images/product-details/similar2.jpg')}}" alt=""></a>
-						<a href=""><img src="{{URL::to('public/frontEnd/images/product-details/similar3.jpg')}}" alt=""></a>
-					</div>
-            <div class="item">
-                <a href=""><img src="{{URL::to('public/frontEnd/images/product-details/similar1.jpg')}}" alt=""></a>
-                <a href=""><img src="{{URL::to('public/frontEnd/images/product-details/similar2.jpg')}}" alt=""></a>
-                <a href=""><img src="{{URL::to('public/frontEnd/images/product-details/similar3.jpg')}}" alt=""></a>
-            </div>
+    <!--product-details-->
+    <div class="col-sm-6">
+        <ul id="imageGallery">
+                @foreach($all_gallery as $key1 => $gallery_value)
+                <li class="imgslider" data-thumb="{{URL::to('public/upload/gallerys/'.$gallery_value->gallery_image)}}">
+					<img src="{{URL::to('public/upload/gallerys/'.$gallery_value->gallery_image)}}" width="100%" height="400px"/>
+				</li>
+                @endforeach	
+		</ul>
     </div>
-
-    <!-- Album -->
-    <a class="left item-control" href="#similar-product" data-slide="prev">
-        <i class="fa fa-angle-left"></i>
-    </a>
-    <a class="right item-control" href="#similar-product" data-slide="next">
-        <i class="fa fa-angle-right"></i>
-    </a>
-</div>
-</div>
-<div class="col-sm-7">
+<div class="col-sm-6">
     <div class="product-information">
         <!--/product-information-->
         <img src="{{URL::to('public/frontEnd/images/product-details/new.jpg')}}" class="newarrival" alt="" />
@@ -75,6 +52,7 @@
 </div>
 <!--/product-details-->
 </form>
+
 <div class="category-tab shop-details-tab">
     <!--category-tab-->
     <div class="col-sm-12">
@@ -145,7 +123,7 @@
                                 <img src="{{URL::to('public/upload/products/'.$value_product_recommended->product_image)}}" height="100%" width="100%" />
                                 <h3>{{$value_product_recommended->product_name}}</h3>
                                 <h5 id="price_product">{{number_format($value_product_recommended->product_price,0,',','.')}}Đ</h5>
-                                <a href="{{URL::to('chi-tiet-san-pham/'.$value_product_recommended->product_id)}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Xem chi tiết</a>
+                                <a href="{{URL::to('chi-tiet-san-pham/'.$value_product_recommended->product_slug)}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Xem chi tiết</a>
                             </div>
                         </div>
                     </div>
@@ -162,6 +140,4 @@
     </div>
 </div>
 <!--/recommended_items-->
-<!-- ajajax -->
-
 @endsection

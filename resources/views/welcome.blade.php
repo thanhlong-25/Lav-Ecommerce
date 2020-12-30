@@ -3,8 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
     <title>Home | E-Commerce</title>
 <link href="{{asset('public/frontEnd/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('public/frontEnd/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
@@ -13,11 +11,8 @@
 <link href="{{asset('public/frontEnd/css/animate.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('public/frontEnd/css/main.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('public/frontEnd/css/responsive.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('public/frontEnd/css/sweetalert.css')}}" rel="stylesheet" type="text/css">
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->       
+<link href="{{asset('public/frontEnd/css/sweetalert.css')}}" rel="stylesheet" type="text/css">     
+<link href="{{asset('public/frontEnd/css/lightslider.css')}}" type="text/css" rel="stylesheet"/>                  
     <link rel="shortcut icon" href="{{('public/frontEnd/images/ico/favicon.ico')}}">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -222,11 +217,11 @@ Session::get("customer_id");
 				<div class="col-sm-2">
 					<div class="left-sidebar">
 						<div class="brands_products"><!--brands_products-->
-							<h2>Thương Hiệu</h2>
+							<h2>Dang Mục</h2>
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
 								@foreach($all_cate as $key => $cate)
-									<li><a href="{{URL::to('thuong-hieu-san-pham/'.$cate->cate_slug)}}">{{$cate->cate_name}}</a></li>
+									<li><a href="{{URL::to('danh-muc-san-pham/'.$cate->cate_slug)}}">{{$cate->cate_name}}</a></li>
 								@endforeach
 								</ul>
 							</div>
@@ -268,7 +263,7 @@ Session::get("customer_id");
 			</div>
 		</div>
 	</section>
-	
+
 	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
 			<div class="container">
@@ -426,6 +421,7 @@ Session::get("customer_id");
 		</div>
 		
 	</footer><!--/Footer-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> 
     <script src="{{asset('public/frontEnd/js/jquery.js')}}"></script>
 	<script src="{{asset('public/frontEnd/js/bootstrap.min.js')}}"></script>
 	<script src="{{asset('public/frontEnd/js/jquery.scrollUp.min.js')}}"></script>
@@ -433,6 +429,7 @@ Session::get("customer_id");
     <script src="{{asset('public/frontEnd/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('public/frontEnd/js/main.js')}}"></script>
 	<script src="{{asset('public/frontEnd/js/sweetalert.js')}}"></script>
+	<script src="{{asset('public/frontEnd/js/lightslider.js')}}"></script>
 	
 	<script type="text/javascript">
 	$(document).ready(function(){
@@ -505,6 +502,24 @@ Session::get("customer_id");
                 });
 
 	});
+
+	// SLider Product
+	$(document).ready(function() {
+    $('#imageGallery').lightSlider({
+        gallery:true,
+        item:1,
+        loop:true,
+        thumbItem:4,
+        slideMargin:5,
+        enableDrag: false,
+        currentPagerPosition:'left',
+        onSliderLoad: function(el) {
+            el.lightGallery({
+                selector: '#imageGallery .lslide'
+            });
+        }   
+    });  
+  });
 	</script>
 </body>
 </html>

@@ -95,7 +95,7 @@ class CategoryController extends Controller
 
     public function validation($request){
         return $this->validate($request, [
-            'name_category' => ['required', 'max:100', 'unique'],
+            'name_category' => ['required', 'max:100'],
         ]);
     }
 
@@ -108,10 +108,9 @@ class CategoryController extends Controller
         $get_cate_name = Category::where('tbl_category.cate_slug', $cate_slug)->limit(1)->get();
         $banner = Banner::where('banner_status', '1')->get();
         $product_byId = Product::join('tbl_category', 'tbl_category.cate_id' ,'=', 'tbl_product.cate_id')
-        ->where('tbl_cate.cate_slug', $cate_slug)
+        ->where('tbl_category.cate_slug', $cate_slug)
         ->where('product_status', '1')->limit(4)->get();
         
         return view('/Page.Category.show_category_byId')->with(compact('all_cate', 'all_brand', 'product_byId', 'get_cate_name' ,'banner'));
     }
-
 }
