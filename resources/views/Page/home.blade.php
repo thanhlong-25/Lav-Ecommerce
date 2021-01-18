@@ -19,15 +19,11 @@
 											<h4 name="name_product">{{$product->product_name}}</h4>
 											<h5 id="price_product">{{number_format($product->product_price,0,',','.')}}đ</h5>
 										</div>
-										<div class="product-overlay">
-											<div class="overlay-content">
-												<img src="{{URL::to('public/upload/products/'.$product->product_image)}}" height="100%" width="100%" />
-											</div>
-										</div>
 								</div>
 								<div class="choose">
 									<ul class="nav nav-pills nav-justified">
-										<li><a class="fa add-to-cart" href="{{URL::to('chi-tiet-san-pham/'.$product->product_slug)}}"><i class="fa fa-shopping-cart"></i>Chi tiết</a></li>	
+										<li><a class="fa add-to-cart" href="{{URL::to('chi-tiet-san-pham/'.$product->product_slug)}}"><i class="fa fa-shopping-cart"></i>Đặt hàng</a></li>	
+										<li><a class="fa add-to-cart" data-toggle="modal" data-target="#favourite" data-id_product="{{$product->product_id}}" ><i class="fa fa-eye"></i>Yêu thích</a></li>	
 									</ul>
 								</div>
 							</div>
@@ -35,6 +31,27 @@
                         </div>
 						@endforeach
                     </div><!--features_items-->
+
+					<!-- Modal -->
+						<div class="modal fade" id="favourite" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								...
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary">Save changes</button>
+							</div>
+							</div>
+						</div>
+						</div>
 
 					{{-- Phân trang --}}
 					<footer class="panel-footer">

@@ -110,7 +110,7 @@ class BrandController extends Controller
         return Redirect::to('/list-brand');  
     }
 
-    public function unactive_status_brand($param_brand_id){
+    public function inactive_status_brand($param_brand_id){
         $this->authenLogin();
         $get_brand_name =  Brand::where('brand_id', $param_brand_id)->select('brand_name')->first();
         Brand::where('brand_id', $param_brand_id)->update(['brand_status'=>1]);

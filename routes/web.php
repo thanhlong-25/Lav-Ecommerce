@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DeliveryAddressController;
 use App\Http\Controllers\GalleryController;
@@ -28,7 +29,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// FRONT END
+// FRONT E
+
 Route::get('/', [HomeController::class, 'index' ]);
 Route::get('/trang-chu', [HomeController::class, 'index' ]);
 Route::post('/tim-kiem', [HomeController::class, 'search_product' ]);
@@ -36,6 +38,7 @@ Route::get('/404', [HomeController::class], 'error_page');
 Route::get('/danh-muc-san-pham/{cate_slug}', [CategoryController::class, 'danh_muc_san_pham' ]);
 Route::get('/thuong-hieu-san-pham/{brand_slug}', [BrandController::class, 'thuong_hieu_san_pham' ]);
 Route::get('/chi-tiet-san-pham/{product_slug}', [ProductController::class, 'chi_tiet_san_pham' ]);
+Route::post('/autocomplete-search',  [HomeController::class, 'autocomplete_search' ]);
 
 // // BACK END
 Route::get('/admin', [AdminController::class, 'admin' ]);
@@ -52,7 +55,7 @@ Route::get('/edit-category/{param_cate_id}', [CategoryController::class, 'edit_c
 Route::post('/update-category/{param_cate_id}', [CategoryController::class, 'update_category' ]);
 Route::get('/delete-category/{param_cate_id}', [CategoryController::class, 'delete_category' ]);
 Route::get('/list-category', [CategoryController::class, 'list_category' ]);
-Route::get('/unactive-status-cate/{param_cate_id}', [CategoryController::class, 'unactive_status_cate' ]);
+Route::get('/inactive-status-cate/{param_cate_id}', [CategoryController::class, 'inactive_status_cate' ]);
 Route::get('/active-status-cate/{param_cate_id}', [CategoryController::class, 'active_status_cate' ]);
 
 // BRANDS
@@ -61,7 +64,7 @@ Route::get('/edit-brand/{param_brand_id}', [BrandController::class, 'edit_brand'
 Route::post('/update-brand/{param_brand_id}', [BrandController::class, 'update_brand' ]);
 Route::get('/delete-brand/{param_brand_id}', [BrandController::class, 'delete_brand' ]);
 Route::get('/list-brand', [BrandController::class, 'list_brand' ]);
-Route::get('/unactive-status-brand/{param_brand_id}', [BrandController::class, 'unactive_status_brand' ]);
+Route::get('/inactive-status-brand/{param_brand_id}', [BrandController::class, 'inactive_status_brand' ]);
 Route::get('/active-status-brand/{param_brand_id}', [BrandController::class, 'active_status_brand' ]);
 
 // PRODUCTS
@@ -70,8 +73,16 @@ Route::get('/edit-product/{param_product_id}', [ProductController::class, 'edit_
 Route::post('/update-product/{param_product_id}', [ProductController::class, 'update_product' ]);
 Route::get('/delete-product/{param_product_id}', [ProductController::class, 'delete_product' ]);
 Route::get('/list-product', [ProductController::class, 'list_product' ]);
-Route::get('/unactive-status-product/{param_product_id}', [ProductController::class, 'unactive_status_product' ]);
+Route::get('/inactive-status-product/{param_product_id}', [ProductController::class, 'inactive_status_product' ]);
 Route::get('/active-status-product/{param_product_id}', [ProductController::class, 'active_status_product' ]);
+Route::post('/rating-product', [ProductController::class, 'rating_product' ]);
+
+// COMMENT
+Route::get('/list-comment', [CommentController::class, 'list_comment' ]);
+Route::post('/load-comment', [CommentController::class, 'load_comment' ]);
+Route::post('/send-comment', [CommentController::class, 'send_comment' ]);
+Route::get('/delete-comment/{param_comment_id}', [CommentController::class, 'delete_comment' ]);
+
 
 //GALLERY
 Route::get('/list-gallery/{product_id}', [GalleryController::class, 'list_gallery' ]);
@@ -122,7 +133,7 @@ Route::get('/list-banner', [BannerController::class, 'list_banner' ]);
 Route::post('/add-banner', [BannerController::class, 'add_banner' ]);
 Route::get('/delete-banner/{param_banner_id}', [BannerController::class, 'delete_banner' ]);
 Route::get('/show-banner', [BannerController::class, 'show_banner' ]);
-Route::get('/unactive-status-banner/{param_banner_id}', [BannerController::class, 'unactive_status_banner' ]);
+Route::get('/inactive-status-banner/{param_banner_id}', [BannerController::class, 'inactive_status_banner' ]);
 Route::get('/active-status-banner/{param_banner_id}', [BannerController::class, 'active_status_banner' ]);
 
 

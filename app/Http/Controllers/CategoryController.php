@@ -28,7 +28,7 @@ class CategoryController extends Controller
 
     public function list_category(){
         $this->authenLogin();
-        $all_category = Category::orderBy('cate_id','Desc')->paginate(10);
+        $all_category = Category::orderBy('cate_id','Desc')->paginate(20);
         return view('admin.Category.list_category')->with(compact('all_category'));
     }
 
@@ -85,7 +85,7 @@ class CategoryController extends Controller
         return Redirect::to('/list-category');  
     }
 
-    public function unactive_status_cate($param_cate_id){
+    public function inactive_status_cate($param_cate_id){
         $this->authenLogin();
         $get_category_name = Category::where('cate_id', $param_cate_id)->select('cate_name')->first();
         Category::where('cate_id', $param_cate_id)->update(['cate_status'=>1]);

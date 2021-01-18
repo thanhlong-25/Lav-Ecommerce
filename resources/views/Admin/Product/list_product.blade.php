@@ -93,7 +93,7 @@
 	    ?>
     
     <div class="table-responsive">
-      <table class="table table-striped b-t b-light">
+      <table id="myTable" class="table table-striped">
         <thead>
           <tr>
             <th>#</th>
@@ -125,17 +125,17 @@
             <td>{{$product->product_inventory}}</td>
             <td>{{$product->product_sold}}</td>
             <td>{{number_format($product->product_price,0,',','.')}}</td>
-            <td><a href="{{url('list-gallery/'.$product->product_id)}}">View Gallery</td>
+            <td><a href="{{url('list-gallery/'.$product->product_id)}}"><input class="btn btn-primary btn-xs" value="Gallery"></a></td>
             <td><img src="public/upload/products/{{$product->product_image}}" height="100px" height="100px"></td>
             <td><span class="text-ellipsis">
             <?php   
                 if($product->product_status == 0){
                     ?>
-                <a href="{{URL::to('/unactive-status-product/'.$product->product_id)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a>
+                <a href="{{URL::to('/inactive-status-product/'.$product->product_id)}}"><input class="btn btn-danger btn-xs" value="Inactive"></a>
                    <?php
                 }else{
                     ?>
-                <a href="{{URL::to('/active-status-product/'.$product->product_id)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a>
+                <a href="{{URL::to('/active-status-product/'.$product->product_id)}}"><input class="btn btn-success btn-xs" value="Active"></a>
                     <?php
                     }
                     ?>

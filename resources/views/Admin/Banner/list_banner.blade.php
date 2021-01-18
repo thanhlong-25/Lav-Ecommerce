@@ -85,11 +85,11 @@
             <?php   
                 if($banner_value->banner_status == 0){
                     ?>
-                <a href="{{URL::to('/unactive-status-banner/'.$banner_value->banner_id)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a>
+                <a href="{{URL::to('/inactive-status-banner/'.$banner_value->banner_id)}}"><input class="btn btn-danger btn-xs" value="Inactive"></a>
                    <?php
                 }else{
                     ?>
-                <a  href="{{URL::to('/active-status-banner/'.$banner_value->banner_id)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a>
+                <a  href="{{URL::to('/active-status-banner/'.$banner_value->banner_id)}}"><input class="btn btn-success btn-xs" value="Active"></a>
                     <?php
                     }
                 ?>

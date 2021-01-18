@@ -85,11 +85,11 @@
             <?php   
                 if($brand->brand_status == 0){
                     ?>
-                <a href="{{URL::to('/unactive-status-brand/'.$brand->brand_id)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a>
+                <a href="{{URL::to('/inactive-status-brand/'.$brand->brand_id)}}"><input class="btn btn-danger btn-xs" value="Inactive"></a>
                    <?php
                 }else{
                     ?>
-                <a  href="{{URL::to('/active-status-brand/'.$brand->brand_id)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a>
+                <a  href="{{URL::to('/active-status-brand/'.$brand->brand_id)}}"><input class="btn btn-success btn-xs" value="Active"></a>
                     <?php
                     }
                     ?>

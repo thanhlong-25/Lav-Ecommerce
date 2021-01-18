@@ -20,7 +20,9 @@
         "laravel/framework": "^8.0",
         "laravel/socialite": "^5.0",
         "laravel/tinker": "^2.0",
+        "livewire/livewire": "^2.3",
         "maatwebsite/excel": "^3.1",
+        "mediconesystems/livewire-datatables": "^0.4.3",
         "rackspace/php-opencloud": "dev-master"
     },
     "require-dev": {

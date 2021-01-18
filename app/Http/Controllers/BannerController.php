@@ -85,7 +85,7 @@ class BannerController extends Controller
         return Redirect::to('/list-banner');  
     }
 
-    public function unactive_status_banner($param_banner_id){
+    public function inactive_status_banner($param_banner_id){
         $this->authenLogin();
         $get_banner_name =  Banner::where('banner_id', $param_banner_id)->select('banner_name')->first();
         Banner::where('banner_id', $param_banner_id)->update(['banner_status'=>1]);

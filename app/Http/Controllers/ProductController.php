@@ -11,6 +11,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Banner;
 use App\Models\Gallery;
+use App\Models\Rating;
 use File;
 use DateTime;
 date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -37,7 +38,7 @@ class ProductController extends Controller
         $all_brand = Brand::orderBy('brand_id', 'desc')->get();
         $all_product = Product::join('tbl_category', 'tbl_category.cate_id','=', 'tbl_product.cate_id')
             ->join('tbl_brand', 'tbl_brand.brand_id','=', 'tbl_product.brand_id')
-            ->orderByDesc('tbl_product.product_id')->paginate(20);
+            ->orderByDesc('tbl_product.product_id')->paginate(10);
      
         return view('admin..Product.list_product')->with(compact('all_product', 'all_brand', 'all_cate'));
     }
@@ -163,7 +164,7 @@ class ProductController extends Controller
         return Redirect::to('/list-product');  
     }
 
-    public function unactive_status_product($param_product_id){
+    public function inactive_status_product($param_product_id){
         $this->authenLogin();
         $get_product_name = Product::select('product_name')->where('tbl_product.product_id', $param_product_id)->first();
         Product::where('product_id', $param_product_id)->update(['product_status'=>1]);
@@ -197,10 +198,13 @@ class ProductController extends Controller
         // lấy những liên quan --start
         foreach($detail_product as $key => $product_recommended){
             $product_id = $product_recommended->product_id;
+            $product_cate = $product_recommended->cate_name;
             $cate_id_relative = $product_recommended->cate_id;
         }
 
         $gallery = Gallery::where('product_id', $product_id)->limit(4)->get();
+        $rating = Rating::where('product_id', $product_id)->avg('rating_value');
+        $rating = round($rating);
 
         $relative_product = Product::join('tbl_category', 'tbl_category.cate_id','=', 'tbl_product.cate_id')
         ->join('tbl_brand', 'tbl_brand.brand_id','=', 'tbl_product.brand_id')
@@ -214,7 +218,29 @@ class ProductController extends Controller
         ->with('all_brand', $brand_product)
         ->with('detail_product', $detail_product)
         ->with('product_recommended', $relative_product)
+        ->with('product_cate', $product_cate )
         ->with('banner', $banner)
-        ->with('all_gallery', $gallery);
+        ->with('all_gallery', $gallery)
+        ->with('rating', $rating);
     }
+
+    public function rating_product(Request $request){
+        $data = $request->all();
+        $product_id = $data['product_id'];
+        $customer_id =  $data['customer_id'];
+        $rating_value =  $data['index'];
+
+        $check = Rating::where('customer_id', $customer_id)->where('product_id', $product_id)->get();
+        if($check->isEmpty()){
+            $rate = new Rating();
+            $rate->product_id = $product_id;
+            $rate->customer_id = $customer_id;
+            $rate->rating_value = $rating_value;
+            $rate->save();
+        }else{
+            Rating::where('customer_id', $customer_id)->where('product_id', $product_id)->update(['rating_value' => $rating_value]);
+        }
+        
+    }
+
 }

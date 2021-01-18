@@ -17,4 +17,12 @@ class UserCustomer extends Model
         'customer_password',
         'customer_phone',
     ];
+
+    public function customer(){
+        return $this->hasMany('App\Models\Comment');
+    }
+
+    public function rating(){
+        return $this->hasMany('App\Models\Rating');
+    }
 }
