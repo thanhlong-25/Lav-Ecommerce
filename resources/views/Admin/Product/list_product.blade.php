@@ -104,6 +104,7 @@
             <th>INVENTORY</th>
             <th>SOLD</th>
             <th>PRICE</th>
+            <th>VIEW</th>
             <th>GALLERY</th>
             <th>IMAGE</th>
             <th>STATUS</th>
@@ -125,6 +126,7 @@
             <td>{{$product->product_inventory}}</td>
             <td>{{$product->product_sold}}</td>
             <td>{{number_format($product->product_price,0,',','.')}}</td>
+            <td>{{$product->product_views}}</td>
             <td><a href="{{url('list-gallery/'.$product->product_id)}}"><input class="btn btn-primary btn-xs" value="Gallery"></a></td>
             <td><img src="public/upload/products/{{$product->product_image}}" height="100px" height="100px"></td>
             <td><span class="text-ellipsis">

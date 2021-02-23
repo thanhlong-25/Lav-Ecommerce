@@ -24,7 +24,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="{{asset('public/backEnd/css/font-awesome.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="{{asset('public/backEnd/css/morris.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{asset('public/backEnd/css/monthly.css')}}" type="text/css" />
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" type="text/css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="{{asset('public/frontEnd/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <script src="{{asset('public/backEnd/js/jquery2.0.3.min.js')}}"></script>
@@ -82,7 +81,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="leftside-navigation">
                     <ul class="sidebar-menu" id="nav-accordion">
                         <li>
-                            <a class="active" href="index.html">
+                            <a class="active" href="{{URL::to('dashboard')}}">
                                 <i class="fa fa-dashboard"></i>
                                 <span>DASHBOARD</span>
                             </a>
@@ -197,7 +196,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{{asset('public/backEnd/js/scripts.js')}}"></script>
     <script src="{{asset('public/backEnd/js/jquery.slimscroll.js')}}"></script>
     <script src="{{asset('public/backEnd/js/jquery.nicescroll.js')}}"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('public/backEnd/js/jquery.scrollTo.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -206,7 +204,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('content_blog');
-
     </script>
     <script type='text/javascript'>
         function myFunction() {
@@ -265,67 +262,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <script type="text/javascript">
     $(document).ready(function() {
-        // Lấy data ****************************************************************************
-        fetch_delivery();
-
-        function fetch_delivery() {
-            var _token = $('input[name="_token"]').val();
-            $.ajax({
-                url: '{{url('/load-delivery-cost')}}'
-                , method: 'POST'
-                , data: {
-                    _token: _token
-                }
-                , success: function(data) {
-                    $('#load_delivery_cost').html(data); // nói chung là nó sẽ load dữ liệu vô cái id="load_devivery_cost"
-                }
-            });
-        }
-        // Update ********************************************************************************
-        $(document).on('blur', '.shippingcost_edit', function() { // class shippingcost_id, "Blur" là khi click trong textedit sau đó click ra ngoài thì blur sẽ được gọi
-            var id = $(this).data('shippingcost_id'); // data lấy trong data-shippingcost-id
-            var cost = $(this).text(); // lấy giá trị trong text
-            var _token = $('input[name="_token"]').val();
-            $.ajax({
-                url: '{{url('/update-delivery-cost')}}'
-                , method: 'POST'
-                , data: {
-                    id: id
-                    , cost: cost
-                    , _token: _token
-                }
-                , success: function(data) {
-                    fetch_delivery();
-                }
-            });
-        });
-        // Click Chọn Thành Phố các thứ****************************************************************************
-        $('.choose').on('change', function() {
-            var action = $(this).attr('id'); //hành động xem xét dựa vào id
-            var value_name = $(this).val();
-            var _token = $('input[name="_token"]').val();
-            var result = "";
-
-            if (action == 'city_province_id') { // Khi chọn city thì district nhận giá trị VD: city Hồ Chí Minh thì có quận x, y, z
-                result = 'district_id';
-            } else {
-                result = 'subdistrict_id';
-            }
-            $.ajax({
-                url: '{{url('/select-delivery')}}'
-                , method: 'POST'
-                , data: {
-                    action: action
-                    , value_name
-                    , value_name
-                    , _token: _token
-                }
-                , success: function(data) {
-                    $('#' + result).html(data);
-                }
-            });
-        });
-
         // Cập nhật trạng thái đơn hàng
         $('#change_order_status').on('change', function() {
             var order_id = $('#order_id').val();
@@ -388,4 +324,107 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         }
     };
 </script>
+
+{{-- Filter STATISTICS --}}
+<script type="text/javascript">
+$(document).ready(function(){
+    
+    load_chart();
+
+    function load_chart(){
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+                url: '{{url('/load-chart')}}'
+                , method: 'POST'
+                ,dataType:"JSON"
+                , data: {_token: _token}
+                , success: function(data) {
+                   chart.setData(data);
+                   chart2.setData(data);
+                }
+            });
+    };
+
+    $('#btn-dashboard-filter').click(function(){
+        var form_date = $('#datepickerform').val();
+        var to_date = $('#datepickerto').val();
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+                url: '{{url('/filter-by-date')}}'
+                , method: 'POST'
+                ,dataType:"JSON"
+                , data: {
+                    form_date: form_date
+                    , to_date: to_date
+                    , _token: _token
+                }
+                , success: function(data) {
+                   chart.setData(data);
+                   chart2.setData(data);
+                }
+            });
+    });
+
+    $('#option-filter').change(function(){
+        var option_val = $(this).val();
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+                url: '{{url('/filter-by-option')}}'
+                , method: 'POST'
+                ,dataType:"JSON"
+                , data: {
+                    option_val: option_val
+                    , _token: _token
+                }
+                , success: function(data) {
+                   chart.setData(data);
+                   chart2.setData(data);
+                }
+            });
+    });
+
+    var chart = new Morris.Line({
+        element: 'myfirstchart',
+        lineColors: ['#47a447', '#0066cc', '#ff6000', '#ff9900', '#766b56'],
+        pointFillColors: ['#ffffff'],
+        pointStrokeColors: ['black'],
+            fillOpacity: 0.6,
+            hideHover: 'auto',
+            parseTime: false,
+        xkey: 'date',
+        ykeys: ['sale', 'profit', 'quantity', 'total_order'],
+        labels: ['Doanh thu', 'Lợi nhuận', 'Số lượng', 'Tổng đơn hàng']
+        });
+
+    var chart2 = new Morris.Area({
+        element: 'mysecondchart',
+        lineColors: ['#47a447', '#0066cc', '#ff6000', '#ff9900', '#766b56'],
+        pointFillColors: ['#ffffff'],
+        pointStrokeColors: ['black'],
+            fillOpacity: 0.6,
+            hideHover: 'auto',
+            parseTime: false,
+        xkey: 'date',
+        ykeys: [ 'quantity', 'total_order'],
+        labels: [ 'Số lượng', 'Tổng đơn hàng']
+        });
+
+    var chart3 = Morris.Donut({
+        element: 'donut-example',
+        resize: true,
+        colors: [
+            '#FF2323',
+            '#FFFF23',
+            '#2323FF',
+            '#23FF23'
+        ],
+        data: [
+            {label:"DANH MỤC", value:{{$count_cate}}},
+            {label:"THƯƠNG HIỆU", value:{{$count_brand}}},
+            {label:"SẢN PHẨM", value:{{$count_product}}},
+            {label:"ĐƠN HÀNG", value:{{$count_order}}},
+        ]
+        });
+})
+  </script>
 </html>

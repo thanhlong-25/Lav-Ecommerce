@@ -16,4 +16,8 @@ class Category extends Model
         'cate_slug',
         'cate_status',
     ];
+
+    public function product(){
+        return $this->hasMany('App\Models\Product');
+    }
 }

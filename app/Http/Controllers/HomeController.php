@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Visitor;
 use App\Models\Banner;
 use App\Models\Comment;
 use App\Models\Product;
@@ -21,7 +22,19 @@ class HomeController extends Controller
         return view('errors.404');
     }
 
-    public function index(){
+    public function index(Request $request){
+
+        $ip_address = $request->ip();
+        $visitor_current = Visitor::where("visitor_ip", $ip_address)->get();
+        $visitor_count = $visitor_current->count();
+        if($visitor_count < 1){
+           $visitor = new Visitor();
+           $visitor->visitor_ip = $ip_address;
+           $visitor->visitor_date = Carbon::now();
+           $visitor->save();
+        }
+
+
         $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
         $banner = Banner::where('banner_status', '1')->get();
@@ -31,6 +44,7 @@ class HomeController extends Controller
         ->where('product_status', '1')
         ->where('brand_status', '1')
         ->where('cate_status', '1')
+        ->orderBy('product_id', 'DESC')
         ->paginate(8);
         //->orderBy(DB::raw('RAND()'))->paginate(8);
         
@@ -83,5 +97,11 @@ class HomeController extends Controller
 
     public function test(){
         return view('test');
+    }
+
+    public function contact(){
+        $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
+        $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        return view('/Page.contact')->with(compact('all_cate', 'all_brand')); // Cách 2
     }
 }

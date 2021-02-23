@@ -50,8 +50,7 @@ class CategoryController extends Controller
     public function edit_category($param_cate_id){
         $this->authenLogin();
         $edit_category = Category::where('cate_id', $param_cate_id)->get();
-        $manage_category = view('admin.Category.update_category')->with('update_category', $edit_category);
-        return view('admin.admin_dashboard')->with('admin.Category.update_category', $manage_category);
+        return view('admin.Category.update_category')->with('update_category', $edit_category);
     }
 
     public function update_category(Request $request, $param_cate_id){
@@ -105,12 +104,27 @@ class CategoryController extends Controller
         //$get_category_by_id = DB::table('tbl_category')->where('cate_id', $cate_id)->get();
         $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
-        $get_cate_name = Category::where('tbl_category.cate_slug', $cate_slug)->limit(1)->get();
-        $banner = Banner::where('banner_status', '1')->get();
+        $get_cate_name = Category::where('tbl_category.cate_slug', $cate_slug)->select('cate_name')->first();
+        $get_cate_id = Category::where('tbl_category.cate_slug', $cate_slug)->select('cate_id')->first();
         $product_byId = Product::join('tbl_category', 'tbl_category.cate_id' ,'=', 'tbl_product.cate_id')
         ->where('tbl_category.cate_slug', $cate_slug)
-        ->where('product_status', '1')->limit(4)->get();
+        ->where('product_status', '1')->paginate(8);
         
-        return view('/Page.Category.show_category_byId')->with(compact('all_cate', 'all_brand', 'product_byId', 'get_cate_name' ,'banner'));
+        if(isset($_GET['sap_xep'])){
+            $sort_by = $_GET['sap_xep'];
+
+            if($sort_by == 'ten_tang_dan'){ 
+                $product_byId = Product::with('category')->where('cate_id', $get_cate_id->cate_id)->where('product_status', '1')->orderBy('product_name', 'ASC')->paginate(8)->appends(request()->query());
+            }else if($sort_by == 'ten_giam_dan'){
+                $product_byId = Product::with('category')->where('cate_id', $get_cate_id->cate_id)->where('product_status', '1')->orderBy('product_name', 'DESC')->paginate(8)->appends(request()->query());
+            }else if($sort_by == 'gia_tang_dan'){
+                $product_byId = Product::with('category')->where('cate_id', $get_cate_id->cate_id)->where('product_status', '1')->orderBy('product_price', 'ASC')->paginate(8)->appends(request()->query());
+            }else if($sort_by == 'gia_giam_dan'){
+                $product_byId = Product::with('category')->where('cate_id', $get_cate_id->cate_id)->where('product_status', '1')->orderBy('product_price', 'DESC')->paginate(8)->appends(request()->query());
+            }else{
+            }
     }
+    return view('/Page.Category.show_category_byId')->with(compact('all_cate', 'all_brand', 'product_byId', 'get_cate_name'));
+}
+
 }

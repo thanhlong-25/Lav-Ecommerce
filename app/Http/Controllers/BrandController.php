@@ -74,8 +74,7 @@ class BrandController extends Controller
         $this->authenLogin();
         //$edit_brand = DB::table('tbl_brand')->where('brand_id', $param_brand_id)->get();
         $edit_brand = Brand::where('brand_id', $param_brand_id)->get();
-        $manage_brand = view('admin.Brand.update_brand')->with('update_brand', $edit_brand);
-        return view('admin.admin_dashboard')->with('admin.Brand.update_brand', $manage_brand);
+        return view('admin.Brand.update_brand')->with('update_brand', $edit_brand);
     }
 
     public function update_brand(Request $request, $param_brand_id){
@@ -129,12 +128,60 @@ class BrandController extends Controller
     public function thuong_hieu_san_pham($brand_slug){
         $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
-        $get_brand_name = Brand::where('tbl_brand.brand_slug', $brand_slug)->limit(1)->get();
-        $banner = Banner::where('banner_status', '1')->get();
+        $get_brand_name = Brand::where('tbl_brand.brand_slug', $brand_slug)->select('brand_name')->first();
+        $get_brand_id = Brand::where('tbl_brand.brand_slug', $brand_slug)->select('brand_id')->first();
         $product_byId = Product::join('tbl_brand', 'tbl_brand.brand_id' ,'=', 'tbl_product.brand_id')
         ->where('tbl_brand.brand_slug', $brand_slug)
-        ->where('product_status', '1')->limit(4)->get();
+        ->where('product_status', '1')->paginate(8);
+        
+        if(isset($_GET['sap_xep'])){
+            $sort_by = $_GET['sap_xep'];
 
-        return view('/Page.Brand.show_brand_byId')->with(compact('all_cate', 'all_brand', 'product_byId', 'get_brand_name' ,'banner'));
+            if($sort_by == 'ten_tang_dan'){ 
+                $product_byId = Product::with('brand')->where('brand_id', $get_brand_id->brand_id)->where('product_status', '1')->orderBy('product_name', 'ASC')->paginate(8)->appends(request()->query());
+            }else if($sort_by == 'ten_giam_dan'){
+                $product_byId = Product::with('brand')->where('brand_id', $get_brand_id->brand_id)->where('product_status', '1')->orderBy('product_name', 'DESC')->paginate(8)->appends(request()->query());
+            }else if($sort_by == 'gia_tang_dan'){
+                $product_byId = Product::with('brand')->where('brand_id', $get_brand_id->brand_id)->where('product_status', '1')->orderBy('product_price', 'ASC')->paginate(8)->appends(request()->query());
+            }else if($sort_by == 'gia_giam_dan'){
+                $product_byId = Product::with('brand')->where('brand_id', $get_brand_id->brand_id)->where('product_status', '1')->orderBy('product_price', 'DESC')->paginate(8)->appends(request()->query());
+            }else{
+            }
+        }
+
+        return view('/Page.Brand.show_brand_byId')->with(compact('all_cate', 'all_brand', 'product_byId', 'get_brand_name'));
     }
+
+    public function tab_brands(Request $request){
+        $data = $request->all();
+        $output = '';
+
+        $brand_data = Product::where('brand_id', $data['brand_id'])->get();
+        if($brand_data->count() > 0){
+            $output .='
+            <div class="tab-content">';
+            foreach($brand_data as $key => $data){
+            $output .='   
+            <div class="tab-pane fade active in">
+                <div class="col-sm-3">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                                <img src="'.url('/public/upload/products/'.$data->product_image).'" height="200" alt="" />
+                                <h2>'.number_format($data->product_price).'</h2>
+                                <p>'.$data->product_name.'</p>
+                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            ';
+        }
+    }else{
+        $output .='';
+    }
+    $output.='</div>';
+    echo $output;
+}
 }

@@ -105,11 +105,10 @@ class CartController extends Controller
     public function show_cart_ajax(){
         $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $all_brand =  Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
-        $banner = Banner::where('banner_status', '1')->get();
         $city = City_Province::orderby('city_id', 'ASC')->get();
         $district = District::orderby('district_id', 'ASC')->get();
         $sub_district = SubDistrict::orderby('subdistrict_id', 'ASC')->get();
 
-        return view('/Page.Cart.list_cart_ajax')->with(compact('all_cate', 'all_brand', 'city', 'district', 'sub_district', 'banner'));;
+        return view('/Page.Cart.list_cart_ajax')->with(compact('all_cate', 'all_brand', 'city', 'district', 'sub_district'));;
     }
 }

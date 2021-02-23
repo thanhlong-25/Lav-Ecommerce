@@ -14,6 +14,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DeliveryAddressController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Models\UserCustomer;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,7 @@ Route::get('/danh-muc-san-pham/{cate_slug}', [CategoryController::class, 'danh_m
 Route::get('/thuong-hieu-san-pham/{brand_slug}', [BrandController::class, 'thuong_hieu_san_pham' ]);
 Route::get('/chi-tiet-san-pham/{product_slug}', [ProductController::class, 'chi_tiet_san_pham' ]);
 Route::post('/autocomplete-search',  [HomeController::class, 'autocomplete_search' ]);
+Route::get('/contact',  [HomeController::class, 'contact' ]);
 
 // // BACK END
 Route::get('/admin', [AdminController::class, 'admin' ]);
@@ -66,6 +68,7 @@ Route::get('/delete-brand/{param_brand_id}', [BrandController::class, 'delete_br
 Route::get('/list-brand', [BrandController::class, 'list_brand' ]);
 Route::get('/inactive-status-brand/{param_brand_id}', [BrandController::class, 'inactive_status_brand' ]);
 Route::get('/active-status-brand/{param_brand_id}', [BrandController::class, 'active_status_brand' ]);
+Route::post('/tab-brands', [BrandController::class, 'tab_brands' ]); 
 
 // PRODUCTS
 Route::post('/add-product', [ProductController::class, 'add_product' ]);
@@ -144,6 +147,10 @@ Route::post('/add-cost', [DeliveryAddressController::class, 'add_cost' ]);
 Route::post('/load-delivery-cost', [DeliveryAddressController::class, 'load_delivery_cost' ]);
 Route::post('/update-delivery-cost', [DeliveryAddressController::class, 'update_delivery_cost' ]);
 
+//STATISTICS
+Route::post('/filter-by-date', [StatisticsController::class, 'filter_by_date' ]);
+Route::post('/filter-by-option', [StatisticsController::class, 'filter_by_option' ]);
+Route::post('/load-chart', [StatisticsController::class, 'load_chart' ]);
 
 
 

@@ -100,10 +100,7 @@ class ProductController extends Controller
         $edit_product = Product::where('product_id', $param_product_id)->get();
         $cate_product = Category::orderBy('cate_id', 'desc')->get();
         $brand_product = Brand::orderBy('brand_id', 'desc')->get();
-        //$manage_product = view('admin.update_product')->with('all_cate', $cate_product)->with('all_brand', $brand_product);
-
-        $manage_product = view('admin.Product.update_product')->with('update_product', $edit_product)->with('all_cate', $cate_product)->with('all_brand', $brand_product);
-        return view('admin.admin_dashboard')->with('admin.Product.update_product', $manage_product);
+        return view('admin.Product.update_product')->with('update_product', $edit_product)->with('all_cate', $cate_product)->with('all_brand', $brand_product);
     }
 
     public function update_product(Request $request, $param_product_id){
@@ -188,7 +185,6 @@ class ProductController extends Controller
     public function chi_tiet_san_pham($product_slug){
         $cate_product = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $brand_product = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
-        $banner = Banner::where('banner_status', '1')->get();
         $detail_product = Product::join('tbl_category', 'tbl_category.cate_id','=', 'tbl_product.cate_id')
         ->join('tbl_brand', 'tbl_brand.brand_id','=', 'tbl_product.brand_id')
         ->where('tbl_product.product_status', '1')
@@ -201,6 +197,10 @@ class ProductController extends Controller
             $product_cate = $product_recommended->cate_name;
             $cate_id_relative = $product_recommended->cate_id;
         }
+        $product_update_view = Product::where('product_id', $product_id)->first();
+        $product_update_view->product_views = $product_update_view->product_views + 1;
+        $product_update_view->save();
+
 
         $gallery = Gallery::where('product_id', $product_id)->limit(4)->get();
         $rating = Rating::where('product_id', $product_id)->avg('rating_value');
@@ -219,7 +219,6 @@ class ProductController extends Controller
         ->with('detail_product', $detail_product)
         ->with('product_recommended', $relative_product)
         ->with('product_cate', $product_cate )
-        ->with('banner', $banner)
         ->with('all_gallery', $gallery)
         ->with('rating', $rating);
     }

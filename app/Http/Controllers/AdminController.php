@@ -4,9 +4,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use App\Models\Product;
 use App\Models\Admin;
+use App\Models\Category;
+use App\Models\Brand;
+use App\Models\Order;
+use App\Models\Visitor;
 use Dotenv\Validator;
 use App\Rules\Captcha;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Date;
 use DateTime;
 date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -28,9 +34,36 @@ class AdminController extends Controller
        return view('admin_login');
     }
 
-    public function show_dashboard(){
+    public function show_dashboard(Request $request){
         $this->authenLogin();
-        return view('admin.admin_dashboard');
+
+        // ########################## ACCESS TIMES
+        //Get user Current online
+        $ip_address = $request->ip();
+        $visitor_current = Visitor::where("visitor_ip", $ip_address)->get();
+        $count_current = $visitor_current->count();
+        
+        //Get datetime
+        $today = Carbon::now();
+        $start_thisday = Carbon::now('Asia/Ho_Chi_Minh')->startOfDay()->toDateString();
+        $start_thisweek = Carbon::now('Asia/Ho_Chi_Minh')->startOfWeek()->toDateString();
+        $start_thismonth = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
+
+        //Query
+        $count_visitor = Visitor::all()->count();
+        $accessTime_today = Visitor::whereBetween('visitor_date', [$start_thisday, $today])->count();
+        $accessTime_week = Visitor::whereBetween('visitor_date', [$start_thisweek, $today])->count();
+        $accessTime_month = Visitor::whereBetween('visitor_date', [$start_thismonth, $today])->count();
+
+        //################################## RESOURCE
+        $count_product = Product::all()->count();
+        $count_cate = Category::all()->count();
+        $count_brand = Brand::all()->count();
+        $count_order = Order::all()->count();
+
+        return view('admin.admin_dashboard')
+        ->with(compact('count_visitor', 'accessTime_today', 'accessTime_week', 'accessTime_month', 'count_current',
+                        'count_product', 'count_cate', 'count_brand', 'count_order'));
      }
 
      // Login

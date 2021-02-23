@@ -234,9 +234,8 @@ class CheckoutController extends Controller
     public function login_checkout(){
         $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
         $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
-        $banner = Banner::where('banner_status', '1')->get();
 
-        return view('/Page.Checkout.login_checkout')->with(compact('all_cate','all_brand', 'banner'));
+        return view('/Page.Checkout.login_checkout')->with(compact('all_cate','all_brand'));
     }
 
     public function logout_checkout(){

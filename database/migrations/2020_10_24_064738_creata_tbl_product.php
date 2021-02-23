@@ -22,9 +22,10 @@ class CreataTblProduct extends Migration
             $table->text('product_description');
             $table->integer('product_inventory');
             $table->integer('product_sold');
-            $table->string('product_price');
+            $table->integer('product_price');
             $table->string('product_image');
             $table->integer('product_status');
+            $table->integer('product_views');
             $table->timestamps();
         });
     }

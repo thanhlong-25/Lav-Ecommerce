@@ -24,7 +24,7 @@ class ProductSeeder extends Seeder
         $brand = Brand::all()->pluck('brand_id')->toArray();
         $cate = Category::all()->pluck('cate_id')->toArray();
         //UserCustomer::truncate(); // xoá database đang có~
-        for($i = 0; $i < 10; $i++){
+        for($i = 0; $i < 20; $i++){
             $product_name = $faker->name;
             $slug =  Str::slug($product_name, '-');
             Product::create([
@@ -38,6 +38,7 @@ class ProductSeeder extends Seeder
             'product_image' => $faker->imageUrl($width = 640, $height = 480),
             'product_price' => $faker->numberBetween($min = 100000, $max = 99999999),
             'product_status' => $faker->numberBetween($min = 0, $max = 1),
+            'product_views' => '0',
             'created_at' => now(),
         ]);}
     }

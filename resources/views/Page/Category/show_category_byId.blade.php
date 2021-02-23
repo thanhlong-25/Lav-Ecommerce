@@ -1,11 +1,26 @@
 @extends('welcome')
 @section('content')
 <div class="features_items"><!--features_items-->
-                        @foreach($get_cate_name as $key => $value_category_name)
-							<h2 class="title text-center">Danh mục {{$value_category_name->cate_name}}</h2>
-                        @endforeach
-						@foreach($product_byId as $key => $value_product_byId)
+                        
+						<h2 class="title text-center">Danh mục {{$get_cate_name->cate_name}}</h2>
 						
+                		<div class="row">
+							<div class="col-md-2 pull-right" style="margin-right: 15px; margin-bottom: 15px ">
+							<form>
+							@csrf
+								<select class="form-select" name="filter" id="filter">
+									<option selected>Lọc</option>
+									<option value="{{Request::url()}}?sap_xep=ten_tang_dan">Tên từ A -> Z</option>
+									<option value="{{Request::url()}}?sap_xep=ten_giam_dan">Tên từ Z -> A</option>
+									<option value="{{Request::url()}}?sap_xep=gia_tang_dan">Giá tăng dần</option>
+									<option value="{{Request::url()}}?sap_xep=gia_giam_dan">Giá giảm dần</option>
+								</select>
+							</form>
+							</div>
+							</div>
+						</div>
+						@foreach($product_byId as $key => $value_product_byId)
+
 						<div class="col-sm-3">
 							<div class="product-image-wrapper">
 								<div class="single-products">
@@ -29,4 +44,7 @@
                         </div>
 						@endforeach
                     </div><!--features_items-->
+					<div>
+					<span>{{$product_byId->links()}}<span>
+					</div>
 @endsection											

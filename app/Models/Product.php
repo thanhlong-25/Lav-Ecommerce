@@ -22,6 +22,7 @@ class Product extends Model
         'product_price',
         'product_image',
         'product_status',
+        'product_views'
     ];
 
     public function comment(){
@@ -30,5 +31,13 @@ class Product extends Model
 
     public function rating(){
         return $this->hasMany('App\Models\Rating');
+    }
+
+    public function brand(){
+        return $this->belongsTo('App\Models\Brand', 'brand_id');
+    } // cơ bản là để thay thế câu lệnh join kiểu Product::join('tbl_brand', 'tbl_brand.brand_id' ,'=', 'tbl_product.brand_id')
+
+    public function category(){
+        return $this->belongsTo('App\Models\Category', 'cate_id');
     }
 }

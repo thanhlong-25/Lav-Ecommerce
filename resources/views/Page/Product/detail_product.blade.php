@@ -62,7 +62,8 @@
 			?>
 
         </span>
-        <p><b>Còn lại:</b> {{$value_detail_product->product_inventory}} sản phẩm</p>
+        <p><b>Lượt xem:</b> {{$value_detail_product->product_views}}</p>
+        <p><b>Số lượng:</b> {{$value_detail_product->product_inventory}} sản phẩm</p>
         <p><b>Danh mục:</b> {{$value_detail_product->cate_name}}</p>
         <p><b>Thương hiệu:</b> {{$value_detail_product->brand_name}}</p>
         <p><b>Giới thiệu:</b> {{$value_detail_product->product_description}}</p>
@@ -181,7 +182,7 @@
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo text-center">
-                                <img src="{{URL::to('public/upload/products/'.$value_product_recommended->product_image)}}" height="100%" width="100%" />
+                                <img src="{{URL::to('public/upload/products/'.$value_product_recommended->product_image)}}" height="200"  />
                                 <h3>{{$value_product_recommended->product_name}}</h3>
                                 <h5 id="price_product">{{number_format($value_product_recommended->product_price,0,',','.')}}Đ</h5>
                                 <a href="{{URL::to('chi-tiet-san-pham/'.$value_product_recommended->product_slug)}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Xem chi tiết</a>

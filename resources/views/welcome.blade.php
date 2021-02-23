@@ -7,7 +7,6 @@
     <link href="{{asset('public/frontEnd/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('public/frontEnd/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('public/frontEnd/css/prettyPhoto.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('public/frontEnd/css/price-range.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('public/frontEnd/css/animate.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('public/frontEnd/css/main.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('public/frontEnd/css/responsive.css')}}" rel="stylesheet" type="text/css">
@@ -18,7 +17,7 @@
 <!--/head-->
 
 <body>
-<?php
+    <?php
     Session::get("shipping_id");
     Session::get("customer_id");
 ?>
@@ -155,7 +154,7 @@
                                 </ul>
                             </li>
                             <li><a href="{{URL::to('/show-cart-ajax')}}">Giỏ hàng</a></li>
-                            <li><a href="contact-us.html">Liên hệ</a></li>
+                            <li><a href="{{URL::to('/contact')}}">Liên hệ</a></li>
                             </ul>
                         </div>
                     </div>
@@ -172,7 +171,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!--/header-bottom-->
     </header>
     <!--/header-->
@@ -183,7 +182,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div id="slider-carousel" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators" >
+                        <ol class="carousel-indicators">
                             <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
                             <li data-target="#slider-carousel" data-slide-to="1"></li>
                             <li data-target="#slider-carousel" data-slide-to="2"></li>
@@ -437,18 +436,18 @@
     <script src="{{asset('public/frontEnd/js/jquery.js')}}"></script>
     <script src="{{asset('public/frontEnd/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('public/frontEnd/js/jquery.scrollUp.min.js')}}"></script>
-    <script src="{{asset('public/frontEnd/js/price-range.js')}}"></script>
     <script src="{{asset('public/frontEnd/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('public/frontEnd/js/main.js')}}"></script>
     <script src="{{asset('public/frontEnd/js/sweetalert.js')}}"></script>
     <script src="{{asset('public/frontEnd/js/lightslider.js')}}"></script>
 
-{{-- ########################### Comment ####################################--}}
+    {{-- ########################### Comment ####################################--}}
     <script type="text/javascript">
-        $(document).ready(function(){
-            
-        loadComment();
-            function loadComment(){
+        $(document).ready(function() {
+
+            loadComment();
+
+            function loadComment() {
                 var product_id = $('#productId_hidden').val();
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
@@ -463,70 +462,72 @@
                     }
                 });
             }
-       
-            $('#send_comment').click(function(){
+
+            $('#send_comment').click(function() {
                 var customer_id = $('#customer_id_hidden').val();
                 var product_id = $('#productId_hidden').val();
                 var comment_content = $('#comment_content').val();
                 var _token = $('input[name="_token"]').val();
-                
+
                 $.ajax({
                     url: '{{url('/send-comment')}}'
                     , method: 'POST'
                     , data: {
                         product_id: product_id
-                        ,customer_id: customer_id
+                        , customer_id: customer_id
                         , comment_content: comment_content
                         , _token: _token
-                    }, success: function(data) {
+                    }
+                    , success: function(data) {
                         loadComment();
                         $('#comment_content').val("");
-                    }  
+                    }
                 });
             })
 
         });
+
     </script>
 
 
-{{--// -----------------------------------------------------Rating Hover---------------------------------------------------------}}
+    {{--// -----------------------------------------------------Rating Hover---------------------------------------------------------}}
     <script text="type/javascript">
-    $(document).ready(function(){
-        //Rating Hover---------------------------------------------------------
-            function remove_background(product_id){
-                for(var count = 1; count <= 5; count++){
+        $(document).ready(function() {
+            //Rating Hover---------------------------------------------------------
+            function remove_background(product_id) {
+                for (var count = 1; count <= 5; count++) {
                     $('#' + product_id + '-' + count).css('color', '#ccc');
                 }
             }
 
-            $(document).on('mouseenter', '.rating', function(){
+            $(document).on('mouseenter', '.rating', function() {
                 var index = $(this).data("index");
                 var product_id = $(this).data("product_id");
                 remove_background(product_id);
-                
-                for(var count = 1; count <= index; count++){
+
+                for (var count = 1; count <= index; count++) {
                     $('#' + product_id + '-' + count).css('color', '#ffcc00');
                 }
             });
 
-            $(document).on('mouseleave', '.rating', function(){
+            $(document).on('mouseleave', '.rating', function() {
                 var index = $(this).data("index");
                 var product_id = $(this).data("product_id");
                 var rating = $(this).data("rating");
                 remove_background(product_id);
 
-                for(var count = 1; count <= rating; count++){
+                for (var count = 1; count <= rating; count++) {
                     $('#' + product_id + '-' + count).css('color', '#ffcc00');
                 }
             });
 
-             $(document).on('click', '.rating', function(){
+            $(document).on('click', '.rating', function() {
                 var index = $(this).data("index");
                 var product_id = $(this).data("product_id");
                 var customer_id = $(this).data("customer_id");
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: '{{url('/rating-product')}}'
+                    url: '{{url(' /rating-product')}}'
                     , method: 'POST'
                     , data: {
                         index: index
@@ -535,17 +536,18 @@
                         , _token: _token
                     }
                     , success: function(data) {
-                       swal("Xin cảm ơn!", "Bạn đã đánh giá sản phẩm này " +index+ " sao", "success").then((value) => {
-                           location.reload();
-                    });
-                }
+                        swal("Xin cảm ơn!", "Bạn đã đánh giá sản phẩm này " + index + " sao", "success").then((value) => {
+                            location.reload();
+                        });
+                    }
+                });
             });
-        });
-    })
-</script>
+        })
+
+    </script>
 
 
-{{-- //---------------------------------------------------------------------------------- --}}
+    {{-- //---------------------------------------------------------------------------------- --}}
     <script type="text/javascript">
         $(document).ready(function() {
             $("#add-to-cart").click(function() {
@@ -614,40 +616,40 @@
                         , _token: _token
                     }
                     , success: function(data) {
-                        $('#'+result).html(data);
+                        $('#' + result).html(data);
                     }
                 });
             });
 
-        
 
-        // SLider Product
-        $('#imageGallery').lightSlider({
-            gallery: true
-            , item: 1
-            , loop: true
-            , thumbItem: 4
-            , slideMargin: 5
-            , enableDrag: false
-            , currentPagerPosition: 'left'
-            , onSliderLoad: function(el) {
-                el.lightGallery({
-                    selector: '#imageGallery .lslide'
-                });
-            }
+
+            // SLider Product
+            $('#imageGallery').lightSlider({
+                gallery: true
+                , item: 1
+                , loop: true
+                , thumbItem: 4
+                , slideMargin: 5
+                , enableDrag: false
+                , currentPagerPosition: 'left'
+                , onSliderLoad: function(el) {
+                    el.lightGallery({
+                        selector: '#imageGallery .lslide'
+                    });
+                }
             });
         });
 
     </script>
-    
+
     {{-- -------------------------------------------------AutoComplete Search--------------------------------------------- --}}
     <script type="text/javascript">
-        $('#keyword_search').keyup(function(){
+        $('#keyword_search').keyup(function() {
             var query = $(this).val();
-            if( query != ''){
+            if (query != '') {
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                   url: '{{url('/autocomplete-search')}}'
+                    url: '{{url('/autocomplete-search')}}'
                     , method: 'POST'
                     , data: {
                         query: query
@@ -656,17 +658,51 @@
                     , success: function(data) {
                         $('#search_ajax').fadeIn();
                         $('#search_ajax').html(data);
-                    } 
+                    }
                 });
-            }else{
+            } else {
                 $('#search_ajax').fadeOut();
             }
         })
 
-        $(document).on('click', '#li_search_ajax', function(){
+        $(document).on('click', '#li_search_ajax', function() {
             $('#keyword_search').val($(this).text());
-            $('#search_ajax').fadeOut();    
+            $('#search_ajax').fadeOut();
         });
+
+    </script>
+
+    <script type="text/javascript">
+        $('.tab_brands').click(function() {
+            var brand_id = $(this).data('brand_id');
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: '{{url('/tab-brands')}}'
+                , method: 'POST'
+                , data: {
+                    brand_id: brand_id
+                    , _token: _token
+                }
+                , success: function(data) {
+                    $('#tab_products').html(data);
+                }
+            });
+
+        })
+
+    </script>
+
+    {{-- Filter --}}
+    <script type="text/javascript">
+        $('#filter').on('change', function() {
+            var url = $(this).val();
+            if (url) {
+                window.location = url;
+            }
+            return false;
+        });
+
+      
     </script>
 </body>
 </html>
