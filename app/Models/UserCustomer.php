@@ -16,6 +16,8 @@ class UserCustomer extends Model
         'customer_email',
         'customer_password',
         'customer_phone',
+        'customer_vip',
+        'token_recover_password'
     ];
 
     public function customer(){

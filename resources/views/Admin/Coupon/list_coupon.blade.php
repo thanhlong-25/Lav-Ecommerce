@@ -29,6 +29,10 @@
                     <input type="number" class="form-control" name="max_promote_coupon" id="maxpromoteCoupon"  required>
                   </div>
                   <div class="form-group">
+                    <label for="expirydatecoupon">EXPIRY DATE</label>
+                    <input type="date" class="form-control" name="coupon_expiry_date" id="expirydatecoupon"  required>
+                  </div>
+                  <div class="form-group">
                     <label for="selector">MODE</label>
                       <select name="mode_coupon" class="form-control m-bot15" id="selector">
                         <option>-----Select------</option>
@@ -81,6 +85,7 @@
             <th>CODE</th>
             <th>QUANTITY</th>
             <th>MAX PROMOTE</th>
+            <th>EXPIRY DATE</th>
             <th>MODE</th>
             <th>PROMOTE</th>
             <th>ACTION</th>
@@ -99,6 +104,7 @@
             <td>{{$coupon->coupon_code}}</td>
             <td>{{$coupon->coupon_qty}}</td>
             <td>{{number_format($coupon->max_promote_value,0,',','.')}} đ</td>
+            <td>{{$coupon->coupon_expiry_date}}</td>
             <td>
                 <?php
                   if($coupon->coupon_mode == 0){

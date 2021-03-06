@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
-use App\Models\Banner;
 use DateTime;
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();

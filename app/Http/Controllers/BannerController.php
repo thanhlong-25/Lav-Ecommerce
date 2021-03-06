@@ -62,8 +62,8 @@ class BannerController extends Controller
 
     public function list_banner(){
         $this->authenLogin();
-        $banner = Banner::orderby('banner_id', 'DESC')->paginate(10);
-        return view('/admin.Banner.list_banner')->with(compact('banner'));
+        $banner_admin = Banner::orderby('banner_id', 'DESC')->paginate(10);
+        return view('/admin.Banner.list_banner')->with(compact('banner_admin'));
     }
 
     public function delete_banner($param_banner_id){

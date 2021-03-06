@@ -66,7 +66,7 @@ class StatisticsController extends Controller
         $lastyear = Carbon::now('Asia/Ho_Chi_Minh')->subDay(365)->toDateString();
 
         if($option_val == "thisweek"){
-            $filter = Statistics::where('stat_date', [$start_thisweek, $today])->orderBy('stat_date', 'ASC')->get();
+            $filter = Statistics::whereBetween('stat_date', [$start_thisweek, $today])->orderBy('stat_date', 'ASC')->get();
         }else if($option_val == "lastweek"){
             $filter = Statistics::whereBetween('stat_date', [$start_lastweek, $end_lastweek])->orderBy('stat_date', 'ASC')->get();
         }else if($option_val == "lastmonth"){

@@ -100,12 +100,14 @@ Route::post('/update-cart', [CartController::class, 'update_cart' ]);
 Route::post('/add-cart-ajax', [CartController::class, 'add_cart_ajax' ]);
 Route::get('/show-cart-ajax', [CartController::class, 'show_cart_ajax' ]);
 
-//Check Out
+//Check Out and Customer
 Route::get('/login-checkout', [CheckoutController::class, 'login_checkout' ]);
 Route::get('/logout-checkout', [CheckoutController::class, 'logout_checkout' ]);
 Route::post('/register-customer', [CheckoutController::class, 'register_customer' ]);
 Route::post('/login-customer', [CheckoutController::class, 'login_customer' ]);
 Route::post('/send-orther', [CheckoutController::class, 'send_orther' ]);
+Route::get('/forgot-password', [CheckoutController::class, 'forgot_password' ]);
+Route::post('/recover-password', [CheckoutController::class, 'recover_password' ]);
 
 //User 
 Route::get('/list-user', [UserController::class, 'list_user' ]);

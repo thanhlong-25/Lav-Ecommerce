@@ -75,7 +75,7 @@
 
         {{-- ######################################################################################################################################################### --}}
         {{-- ######################################################################################################################################################### --}}
-          @foreach($banner as $key => $banner_value)
+          @foreach($banner_admin as $key => $banner_value)
           <tr>
             <td>{{$stt}}</td>
             <td>{{$banner_value->banner_id}}</td>
@@ -106,8 +106,8 @@
       </table>
     </div>
     <footer class="panel-footer">
-        <span>{{$banner->links('vendor.pagination.custom_pagination')}}<span>
-    </footer>
+         <span>{{$all_category->links('vendor.pagination.custom_pagination')}}<span>
+     </footer>
   </div>
 </div>
 @endsection

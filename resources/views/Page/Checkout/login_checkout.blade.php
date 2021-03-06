@@ -9,7 +9,7 @@
 <section id="form"><!--form-->
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-4 col-sm-offset-1">
+				<div class="col-sm-5">
 					<div class="login-form"><!--login form-->
 						<h2>Đăng nhập</h2>
 						<form action="{{URL::to('login-customer')}}" method="post">
@@ -19,15 +19,16 @@
 							<span>
 								<input type="checkbox" class="checkbox"> 
 								Nhớ mật khẩu?
-							</span>
-							<button type="submit" class="btn btn-default">Đăng nhập</button>
+							</span>						
+								<button type="submit" class="btn btn-default">Đăng nhập</button>
+								<span><a href="{{URL::to('forgot-password')}}">Quên mật khẩu?</a></span>
 						</form>
 					</div><!--/login form-->
 				</div>
 				<div class="col-sm-1">
 					<h2 class="or">Hoặc</h2>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-5">
 					<div class="signup-form"><!--sign up form-->
 						<h2>Đăng kí</h2>
 						<form action="{{URL::to('register-customer')}}" method="post">

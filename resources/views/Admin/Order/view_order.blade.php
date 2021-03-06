@@ -4,6 +4,7 @@
 @endforeach
 
 <input type="hidden" name="order_id" id="order_id" value="{{$order_value->order_id}}">
+<input type="hidden" name="coupon_code" id="coupon_code" value="{{$order_value->coupon_code}}">
 
 <div class="table-agile-info">
   <div class="panel panel-default">

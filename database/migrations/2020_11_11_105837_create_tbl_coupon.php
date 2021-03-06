@@ -21,6 +21,7 @@ class CreateTblCoupon extends Migration
             $table->integer('coupon_mode');
             $table->integer('coupon_value');
             $table->integer('max_promote_value');
+            $table->string('coupon_expiry_date');
             $table->timestamps();
         });
     }

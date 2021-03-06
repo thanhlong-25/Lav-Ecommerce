@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="priceproduct">PRICE</label>
-                                    <input type="number" class="form-control" name="price_product" id="priceproduct" required>
+                                    <input type="text" class="form-control" name="price_product" id="priceproduct" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="imageproduct">IMAGE</label>

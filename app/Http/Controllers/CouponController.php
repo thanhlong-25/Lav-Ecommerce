@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use DateTime;
 use App\Models\Coupon;
+use Illuminate\Support\Carbon;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,7 @@ class CouponController extends Controller
         $this->authenLogin();
         $this->validation($request);
         $data = $request->all();
+        $today = Carbon::today();
 
         $coupon = new Coupon();
         $coupon->coupon_name  = $data['name_coupon']; // "coupon_name" là tên cột trong database -- "name_coupon" là name trong html
@@ -35,6 +37,7 @@ class CouponController extends Controller
         $coupon->coupon_mode  = $data['mode_coupon'];
         $coupon->coupon_value  = $data['value_coupon'];
         $coupon->max_promote_value = $data['max_promote_coupon'];
+        $coupon->coupon_expiry_date = $data['coupon_expiry_date'];
         $coupon->created_at  = now();
         $coupon->save();
         Session::put('message', "Insert Successfully!!!");
@@ -44,15 +47,13 @@ class CouponController extends Controller
     public function list_coupon(){
         $this->authenLogin();
         $all_coupon = Coupon::orderBy('coupon_id','Desc')->paginate(10);
-        $manage_coupon = view('admin.Coupon.list_coupon')->with('all_coupon', $all_coupon);
-        return view('admin.admin_dashboard')->with('admin.Coupon.list_coupon', $manage_coupon);
+        return view('admin.Coupon.list_coupon')->with('all_coupon', $all_coupon);
     }
 
     public function edit_coupon($param_coupon_id){
         $this->authenLogin();
         $edit_coupon = Coupon::where('coupon_id', $param_coupon_id)->get();
-        $manage_coupon = view('admin.Coupon.update_coupon')->with('update_coupon', $edit_coupon);
-        return view('admin.admin_dashboard')->with('admin.Coupon.update_coupon', $manage_coupon);
+        return view('admin.Coupon.update_coupon')->with('update_coupon', $edit_coupon);
     }
 
     public function update_coupon(Request $request, $param_coupon_id){
@@ -67,6 +68,7 @@ class CouponController extends Controller
         $coupon->coupon_mode  = $data['mode_coupon'];
         $coupon->coupon_value  = $data['value_coupon'];
         $coupon->max_promote_value = $data['max_promote_coupon'];
+        $coupon->coupon_expiry_date = $data['coupon_expiry_date'];
         $coupon->updated_at  = now();
         $coupon->save();
 
@@ -85,9 +87,9 @@ class CouponController extends Controller
     public function check_coupon(Request $request){
         $data = $request->all();
         $coupon = Coupon::where('coupon_code', $data['coupon_check'])->first();
-        if($coupon && $coupon->coupon_qty > 0){
-            $count_coupon =  $coupon->count();
-                if($count_coupon > 0){
+        $today = Carbon::today()->toDateString();
+
+        if($coupon && $coupon->coupon_qty > 0 && $coupon->coupon_expiry_date > $today){
                     $coupon_session = Session::get('coupon');
                     if($coupon_session == true){
                         $is_available = 0;
@@ -98,6 +100,7 @@ class CouponController extends Controller
                                 'coupon_qty' => $coupon->coupon_qty,
                                 'coupon_value' => $coupon->coupon_value,
                                 'max_promote_value' => $coupon->max_promote_value,
+                                'coupon_expiry_date' => $coupon->coupon_expiry_date,
                                 'coupon_mode' => $coupon->coupon_mode,
                             );
                             Session::put('coupon', $count);
@@ -109,15 +112,18 @@ class CouponController extends Controller
                                 'coupon_qty' => $coupon->coupon_qty,
                                 'coupon_value' => $coupon->coupon_value,
                                 'max_promote_value' => $coupon->max_promote_value,
+                                'coupon_expiry_date' => $coupon->coupon_expiry_date,
                                 'coupon_mode' => $coupon->coupon_mode,
                             );
                             Session::put('coupon', $count);
                     }
                     Session::save();
                     return  Redirect::to('/show-cart-ajax')->with('message', "Thêm mã giảm giá thành công");
-                }
+
         }else if($coupon == true && $coupon->coupon_qty <= 0){
             return Redirect::to('/show-cart-ajax')->with('error', "Số lượng mã giảm giá này đã hết");
+        }else if($coupon == true && $coupon->coupon_expiry_date < $today){
+            return Redirect::to('/show-cart-ajax')->with('error', "Mã giảm giá hết hạn");
         }else{
             return Redirect::to('/show-cart-ajax')->with('error', "Mã giảm giá không tồn tại");
         }
@@ -126,7 +132,7 @@ class CouponController extends Controller
     public function validation($request){
         return $this->validate($request,[
             'name_coupon' => ['required', 'max:255'],
-            'code_coupon' => ['required', 'max:15', 'unique'],
+            'code_coupon' => ['required', 'max:15'],
             'qty_coupon' => ['required', 'max:255'],
             'max_promote_coupon' => ['required', 'max:255'],
             'value_coupon' => ['required', 'max:255'],   

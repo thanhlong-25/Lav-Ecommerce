@@ -266,6 +266,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         $('#change_order_status').on('change', function() {
             var order_id = $('#order_id').val();
             var status = $(this).val();
+            var coupon_code = $('#coupon_code').val();
             var _token = $('input[name="_token"]').val();
             order_quantity = [];
             // Lấy số lượng
@@ -293,6 +294,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     , method: 'POST'
                     , data: {
                         order_id: order_id
+                        , coupon_code: coupon_code
                         , status: status
                         , order_quantity: order_quantity
                         , product_id: product_id
@@ -385,7 +387,7 @@ $(document).ready(function(){
 
     var chart = new Morris.Line({
         element: 'myfirstchart',
-        lineColors: ['#47a447', '#0066cc', '#ff6000', '#ff9900', '#766b56'],
+        lineColors: ['#47a447', '#0066cc', '#ff6000', '#ff9900'],
         pointFillColors: ['#ffffff'],
         pointStrokeColors: ['black'],
             fillOpacity: 0.6,
@@ -396,9 +398,9 @@ $(document).ready(function(){
         labels: ['Doanh thu', 'Lợi nhuận', 'Số lượng', 'Tổng đơn hàng']
         });
 
-    var chart2 = new Morris.Area({
+    var chart2 = new Morris.Bar({
         element: 'mysecondchart',
-        lineColors: ['#47a447', '#0066cc', '#ff6000', '#ff9900', '#766b56'],
+        lineColors: ['#ff00ff', '#ffff00'],
         pointFillColors: ['#ffffff'],
         pointStrokeColors: ['black'],
             fillOpacity: 0.6,

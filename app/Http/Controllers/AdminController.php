@@ -60,10 +60,14 @@ class AdminController extends Controller
         $count_cate = Category::all()->count();
         $count_brand = Brand::all()->count();
         $count_order = Order::all()->count();
+        
+        // Get Best saler and product is almost out
+        $best_seller_product = Product::orderBy('product_sold', 'DESC')->take(5)->get();
+        $almost_out_product = Product::orderBy('product_inventory', 'ASC')->take(5)->get();
 
         return view('admin.admin_dashboard')
         ->with(compact('count_visitor', 'accessTime_today', 'accessTime_week', 'accessTime_month', 'count_current',
-                        'count_product', 'count_cate', 'count_brand', 'count_order'));
+                        'count_product', 'count_cate', 'count_brand', 'count_order', 'best_seller_product', 'almost_out_product'));
      }
 
      // Login

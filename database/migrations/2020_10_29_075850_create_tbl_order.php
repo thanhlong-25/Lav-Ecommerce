@@ -20,6 +20,7 @@ class CreateTblOrder extends Migration
             $table->text('coupon_code');
             $table->text('order_total');
             $table->text('order_status');
+            $table->text('order_finishdate');
             $table->timestamps();
         });
     }

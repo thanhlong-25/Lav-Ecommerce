@@ -31,6 +31,10 @@
                                     <input type="number" class="form-control" value="{{$coupon_value->max_promote_value}}" name="max_promote_coupon" id="maxpromoteCoupon"  required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="expirydatecoupon">EXPIRY DATE</label>
+                                    <input type="date" class="form-control" value="{{$coupon_value->coupon_expiry_date}}" name="coupon_expiry_date" id="expirydatecoupon"  required>
+                                </div>
+                                <div class="form-group">
                                     <label for="modecoupon">MODE</label>
                                     <select name="mode_coupon" class="form-control m-bot15" id="selector">
                                         @if($coupon_value->coupon_mode == 0)

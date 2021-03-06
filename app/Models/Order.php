@@ -17,6 +17,7 @@ class Order extends Model
         'coupon_code',
         'order_total',
         'order_status',
+        'order_finishdate'
     ];
 
     

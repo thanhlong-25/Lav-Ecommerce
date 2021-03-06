@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -14,10 +15,11 @@ use App\Models\Brand;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\Order;
-use App\Models\Banner;
+use Nexmo\Laravel\Facade\Nexmo;
 use App\Models\Order_details;
 use App\Models\UserCustomer;
-use App\Models\Shipping;
+use App\Models\Statistics;
+use Illuminate\Support\Facades\Mail;
 use DateTime;
 use PDF;
 date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -66,27 +68,64 @@ class CheckoutController extends Controller
 
     public function update_order_status(Request $request){
         $this->authenLogin();
+
+        $now = Carbon::now()->toDateString();
         $data = $request->all();
         $order_quantity = $data['order_quantity'];
         $product_id = $data['product_id'];
         $order_id = $data['order_id'];
+        $coupon_code = $data['coupon_code'];
         $status = $data['status'];
+        $get_statistic = Statistics::where('stat_date', $now)->get();
         
         if($status == "Đã giao"){
+            Order::where('order_id', $order_id)->update(['order_finishdate' => $now]);
+
+            //update thống kê
+            $total_sale = 1;
+            $total_profit = 0;
+            $total_quantity = 0;
+
+            // update tồn kho trong product
             foreach($product_id as $key => $id_value){
                 $product = Product::find($id_value);
                 $product_inventory = $product->product_inventory;
+                $product_price = $product->product_price;
                 $product_sold = $product->product_sold;
                 foreach($order_quantity as $key2 => $quantity){
                     if($key == $key2){
                             $product_remain = $product_inventory - $quantity;
                             $product->product_inventory =  $product_remain;
                             $product->product_sold = $product_sold + $quantity;
+
+                            //update thống kê
+                            $total_sale += $quantity*$product_price - $coupon_code;
+                            $total_profit += ($total_sale * 15)/100 ;
+                            $total_quantity += $quantity;
                     }
                 }
                 $product->save();
             }
+            $count_statistic = $get_statistic->count();
+                if($count_statistic > 0){
+                    $update_statistic = Statistics::where('stat_date', $now)->first();
+                    $update_statistic->stat_sales = $update_statistic->stat_sales + $total_sale;
+                    $update_statistic->stat_profits = $update_statistic->stat_profits + $total_profit;
+                    $update_statistic->total_quantities = $update_statistic->total_quantities + $total_quantity;
+                    $update_statistic->total_orders = $update_statistic->total_orders + 1;
+                    $update_statistic->save();
+                }else{
+                    $new_statistic = new Statistics();
+                    $new_statistic->stat_date =  $now;
+                    $new_statistic->stat_sales =  $total_sale;
+                    $new_statistic->stat_profits =  $total_profit;
+                    $new_statistic->total_quantities =  $total_quantity;
+                    $new_statistic->total_orders =  1;
+                    $new_statistic->save();
         }
+        }
+
+        
         Order::where('order_id', $order_id)->update(['order_status' => $status]);
     }
 
@@ -340,5 +379,35 @@ class CheckoutController extends Controller
             Session::put('payment_method', $request->payment_option);
             return redirect()->back()->with('message', "Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên lạc với bạn sớm nhất có thể!");
        }
+    }
+
+    public function forgot_password(){
+        $all_cate = Category::where('cate_status', '1')->orderBy('cate_id', 'desc')->get();
+        $all_brand = Brand::where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
+        return view('Page.Checkout.forgot_password')->with(compact('all_cate', 'all_brand'));
+    }
+
+    public function recover_password(Request $request){
+        $phone_number = $request->phonenumber_recover_password;
+        $check_phonenumber = UserCustomer::where('customer_phone', $phone_number)->get();
+        
+        if($check_phonenumber->count() <= 0){
+            return redirect()->back()->with('error', "Không tìm thấy số điện thoại này!");
+        }else{  
+            $token = Str::random(8);
+            $customer = UserCustomer::find($check_phonenumber[0]->customer_id);
+            $customer->token_recover_password = $token;
+            $customer->save();
+
+            return Nexmo::message()->send([
+                'to'   => $phone_number,
+                'from' => '+84981803365',
+                'text' => "{$token} is your identity code."
+            ]);
+
+
+            return redirect()->back()->with('message', "Vui lòng kiểm tra hộp thư đến để khôi phục mật khẩu!");
+        }
+        
     }
 }

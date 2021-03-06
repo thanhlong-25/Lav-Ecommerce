@@ -17,6 +17,7 @@ class Coupon extends Model
         'coupon_qty',
         'coupon_mode', 
         'coupon_value',
-        'max_promote_value'
+        'max_promote_value',
+        'coupon_expiry_date'
     ];
 }

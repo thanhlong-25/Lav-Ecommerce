@@ -19,6 +19,8 @@ class CreateTblUserCustomer extends Migration
             $table->string('customer_email');
             $table->string('customer_password');
             $table->string('customer_phone');
+            $table->string('customer_vip');
+            $table->string('token_recover_password');
             $table->timestamps();
         });
     }
